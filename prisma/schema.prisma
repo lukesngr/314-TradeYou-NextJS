@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model TradeYouUser {
+  id             Int              @id @default(autoincrement())
+  username       String           @unique
+  password       String
+  email          String
+  phone          String
+  address        String
+  MembershipPlan MembershipPlan[]
+  Review         Review[]
+  Rating         Rating[]
+  BillingHistory BillingHistory[]
+  ServiceRequest ServiceRequest[]
+  Payment        Payment[]
+  Notification   Notification[]
+}
+
+model TradeYouProfessional {
+  id             Int              @id @default(autoincrement())
+  username       String           @unique
+  password       String
+  email          String
+  phone          String
+  address        String
+  Review         Review[]
+  Rating         Rating[]
+  ServiceRequest ServiceRequest[]
+  Notification   Notification[]
+}
+
+model MembershipPlan {
+  id                    Int          @id @default(autoincrement())
+  name                  String
+  description           String
+  price                 Float
+  maxAssistanceCallouts Int
+  user                  TradeYouUser @relation(fields: [userID], references: [id])
+  userID                Int
+}
+
+model Review {
+  id             Int                  @id @default(autoincrement())
+  description    String
+  user           TradeYouUser         @relation(fields: [userID], references: [id])
+  userID         Int
+  professional   TradeYouProfessional @relation(fields: [professionalID], references: [id])
+  professionalID Int
+}
+
+model Rating {
+  id             Int                  @id @default(autoincrement())
+  value          Int
+  user           TradeYouUser         @relation(fields: [userID], references: [id])
+  userID         Int
+  professional   TradeYouProfessional @relation(fields: [professionalID], references: [id])
+  professionalID Int
+}
+
+model BillingHistory {
+  id       Int          @id @default(autoincrement())
+  amount   Float
+  dateTime DateTime
+  user     TradeYouUser @relation(fields: [userID], references: [id])
+  userID   Int
+  status   String
+  Service  Service[]
+}
+
+model ServiceRequest {
+  id             Int                  @id @default(autoincrement())
+  dateTime       DateTime
+  status         String
+  user           TradeYouUser         @relation(fields: [userID], references: [id])
+  userID         Int
+  professional   TradeYouProfessional @relation(fields: [professionalID], references: [id])
+  professionalID Int
+  Service        Service[]
+}
+
+model Service {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  description        String
+  category           String
+  price              Float
+  serviceRequest     ServiceRequest       @relation(fields: [serviceRequestID], references: [id])
+  serviceRequestID   Int
+  billingHistory     BillingHistory       @relation(fields: [billingHistoryID], references: [id])
+  billingHistoryID   Int
+  PaymentsOnServices PaymentsOnServices[]
+}
+
+model Payment {
+  id                 Int                  @id @default(autoincrement())
+  user               TradeYouUser         @relation(fields: [userID], references: [id])
+  userID             Int
+  amount             Float
+  status             String
+  PaymentsOnServices PaymentsOnServices[]
+}
+
+model PaymentsOnServices {
+  id        Int     @id @default(autoincrement())
+  payment   Payment @relation(fields: [paymentID], references: [id])
+  paymentID Int
+  service   Service @relation(fields: [serviceID], references: [id])
+  serviceID Int
+}
+
+model Notification {
+  id             Int                  @id @default(autoincrement())
+  user           TradeYouUser         @relation(fields: [userID], references: [id])
+  userID         Int
+  professional   TradeYouProfessional @relation(fields: [professionalID], references: [id])
+  professionalID Int
+  dateTime       DateTime
+  message        String
+}
