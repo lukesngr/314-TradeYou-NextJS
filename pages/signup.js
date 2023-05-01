@@ -1,6 +1,6 @@
-import { Button, TextField, Card, Box, Typography, Stack, Grid, Switch, FormControlLabel } from "@mui/material";
+import { Button, TextField, Card, Box, Typography, Stack, Grid, Switch, FormControlLabel, Alert, Link } from "@mui/material";
 import { TextareaAutosize } from "@mui/material";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { jsonc } from 'jsonc';
 import axios from "axios";
 import {useRef} from "react";
@@ -17,22 +17,22 @@ export default function SignUp() {
         const professional = isProfessional.value;
         try {
             const req = await axios.post("/api/createAccount", {username, password, email, phone, address, professional});
-            console.log(req);
-        }catch (error) {
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                console.log(error.request);
-            } else {
-                console.log('Error', error.message);
+            if (req.status == 200) {
+                setSuccAlertVisible(true);
+            }else{
+                setSuccAlertVisible(false);
+                setErrAlertVisible(true);
+                
             }
+        }catch (error) {
+            setErrAlertVisible(true);
         }
         
     }
 
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("user");
+    const [succAlertVisible, setSuccAlertVisible] = useState(false);
+    const [errAlertVisible, setErrAlertVisible] = useState(false);
 
     return (
         <Grid container spacing={2}>
@@ -72,6 +72,8 @@ export default function SignUp() {
                             <Grid item xs={3}></Grid>
                             <Grid item xs={6}><Button fullWidth variant="contained" color="primary" onClick={()=> createNewUser()}>Create</Button></Grid>
                             <Grid item xs={3}></Grid>
+                            {succAlertVisible && <Alert severity="success">Create account please proceed to <Link href="/">Login</Link></Alert>}
+                            {errAlertVisible && <Alert severity="warning">Error occurred, please contact developer at lukesngr@gmail.com</Alert>}
                             <Grid item xs={12}></Grid>
                         </Grid>
                         </form>
