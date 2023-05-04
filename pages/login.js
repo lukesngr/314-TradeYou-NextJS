@@ -54,8 +54,8 @@ export default function Login() {
                         </Box>
                     </Card>
                 </Grid>
-            <Grid item xs={4}></Grid>
-        </Grid>
+                <Grid item xs={4}></Grid>
+            </Grid>
         </Box>
         
     );

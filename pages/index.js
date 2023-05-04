@@ -5,16 +5,19 @@ import SignedInProfessionalNavbar from '../components/SignedInProfessionalNavbar
 import NonSignedInNavbar from '../components/NonSignedInNavbar';
 import {Box, Grid, Card, Link, Typography} from "@mui/material"
 import SignedInUserNavbar from '../components/SignedInUserNavbar';
+import GlobalStyles from "@mui/material/GlobalStyles";
 
 
 const HomePage = () => {
     const {data: session } = useSession()
-    if(session.user.userCategory == "professional") {
-        return (
-            <SignedInProfessionalNavbar></SignedInProfessionalNavbar>)
-    }else if(session.user.userCategory == "user") {
-        return (
-            <SignedInUserNavbar></SignedInUserNavbar>)
+    if(session) {
+        if(session.user.userCategory == "professional") {
+            return (
+                <SignedInProfessionalNavbar></SignedInProfessionalNavbar>)
+        }else if(session.user.userCategory == "user") {
+            return (
+                <SignedInUserNavbar></SignedInUserNavbar>)
+        }
     } else {
         return (
             <Box>
