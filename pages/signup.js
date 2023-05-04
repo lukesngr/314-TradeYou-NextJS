@@ -7,7 +7,7 @@ import GlobalStyles from "@mui/material/GlobalStyles";
 
 export default function SignUp() {
     const formReference = useRef()
-    async function createNewUser(params){
+    async function createNewUser(){
         const { userName, userPassword, userEmail, userPhone, userAddress, isProfessional} = formReference.current;
         const username = userName.value;
         const password = userPassword.value;
