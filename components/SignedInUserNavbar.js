@@ -4,7 +4,7 @@ import Image from 'next/image';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-function SignedInProfessionalNavbar() {
+function SignedInUserNavbar() {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
@@ -19,8 +19,8 @@ function SignedInProfessionalNavbar() {
                 <Toolbar sx={{pl:0 }}>
                     <Grid container alignItems="right" spacing={1}>
                         <Grid item xs={1}><Image src="/images/tradeYouIcon.PNG" sx={{p: 2, zIndex: 'left'}} height={50} width={70} alt="Trade You" /></Grid>
-                        <Grid item xs={1}><Link variant="h6" color="secondary" underline="none" href="/submitRequest">Submit a Service Request</Link></Grid>
-                        <Grid item xs={8}><Link variant="h6" color="secondary" underline="none" href="/completedProf">Completed Services</Link></Grid>
+                        <Grid item xs={2}><Link variant="h6" color="secondary" underline="none" href="/submitRequest">Submit a Service Request</Link></Grid>
+                        <Grid item xs={7}><Link variant="h6" color="secondary" underline="none" href="/completedProf">Completed Services</Link></Grid>
                         <Grid item xs={1}><IconButton size="large"><NotificationsIcon /></IconButton></Grid>
                         <Grid item xs={1} aria-controls="account-menu" aria-haspopup="true" onClick={handleProfileMenuOpen}><IconButton><AccountCircle /></IconButton></Grid>
                     </Grid>
@@ -47,4 +47,4 @@ function SignedInProfessionalNavbar() {
             )
 }
 
-export default SignedInProfessionalNavbar;
+export default SignedInUserNavbar;

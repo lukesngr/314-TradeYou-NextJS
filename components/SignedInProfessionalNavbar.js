@@ -3,6 +3,7 @@ import { Grid, Link, AppBar, Toolbar, IconButton, Menu, MenuItem } from "@mui/ma
 import Image from 'next/image';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { signOut } from "next-auth/react";
 
 function SignedInProfessionalNavbar() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -42,6 +43,7 @@ function SignedInProfessionalNavbar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Manage membership</MenuItem>
+      <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
     </Menu>
             </AppBar>
             )
