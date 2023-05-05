@@ -3,17 +3,8 @@ import SignedInProfessionalNavbar from '../components/SignedInProfessionalNavbar
 import { Accordion, AccordionDetails, AccordionSummary, Typography, Box, Grid, Card, Stack, Chip, Button } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import axios from "axios";
 import { useState, useEffect } from 'react';
-
-async function acceptRequest(requestID) {
-    try {
-        await axios.post("/api/modifyRequest", {serviceRequestID: requestID, status: "paccept"});
-    }catch (error) {
-        console.log
-    }
-}
 
 async function completeRequest(requestID) {
     try {
@@ -26,6 +17,16 @@ async function completeRequest(requestID) {
 const availableJobs = () => {
     const {data: session, status } = useSession();
     const [serviceRequests, setServiceRequests] = useState([]);
+    const [professionalID, setProfessionalID] = useState(0);
+
+    async function acceptRequest(requestID) {
+        try {
+            console.log(professionalID);
+            await axios.post("/api/appendToRequest", {serviceRequestID: requestID, status: '#'+professionalID});
+        }catch (error) {
+            console.log
+        }
+    }
 
     useEffect(() => {
         
@@ -37,23 +38,25 @@ const availableJobs = () => {
                 console.log(error)
             }
         
-    
-            console.log(data.data);
-    
             if(data != undefined) {
                 data = data.data;
-                for (var i = 0; i < data.length; i++) {
+                if(data[data.length-1].professionalID != null) {
+                    setProfessionalID(data[data.length-1].professionalID);
+                    delete data[data.length-1];
+                }
+                
+                for (var i = 0; i < data.length-1; i++) {
                     data[i].submitted = false;
                     data[i].paccepted = false;
                     data[i].caccepted = false;
                     if(data[i].status == "submitted") {
                         data[i].submitted = true;
-                    }else if(data[i].status == "paccept") {
-                        data[i].paccepted = true;
+                    }else if(data[i].status == "done") {
+                        delete data[i];
                     }else if(data[i].status == "caccept") {
                         data[i].caccepted = true;
                     }else{
-                        delete data[i];
+                        data[i].paccepted = true;
                     }
                 }
             }
