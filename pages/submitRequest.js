@@ -11,14 +11,19 @@ const submitRequest = () => {
     const formReference = useRef()
     const [category, setCategory] = useState('1');
     const [succAlertVisible, setSuccAlertVisible] = useState('');
-    const handleChange = (event) => { setCategory(event.target.value); };
+    const handleChange = (event) => { setCategory(event.target.value); console.log(event.target.value); };
 
     async function submitNewRequest(){
+        var categories = ["Cleaning Services", "Home Repair and Maintenance", "Landscaping Services", "Moving and Storage Services ",
+                                                    "Home Improvement Services ",
+                                                    "Window Services ", "Painting Services", "Home Security Services ",
+                                                    "Paving Services ",
+                                                    "Garage Services"]
         const {requestName, requestDescription, requestPrice, requestCategory} = formReference.current;
         const name = requestName.value;
         const description = requestDescription.value;
         const price = parseFloat(requestPrice.value);
-        const category = requestCategory.value;
+        const category = categories[requestCategory.value];
         const dateTime= new Date();
         const status = "submitted";
         const userType = session.user.userCategory;
@@ -68,7 +73,7 @@ const submitRequest = () => {
                                             <Grid item xs={3}></Grid>
                                             <Grid item xs={6}><Box>
                                                 <FormControl fullWidth>
-                                                <InputLabel id="service-category">Service Category</InputLabel>
+                                                <InputLabel id="service-category-label">Service Category</InputLabel>
                                                 <Select
                                                     id="service-category"
                                                     value={category}
