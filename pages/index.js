@@ -1,10 +1,10 @@
 import { useSession } from 'next-auth/react'
 import Router from 'next/router'
 import {useEffect } from 'react';
-import SignedInProfessionalNavbar from '../components/SignedInProfessionalNavbar';
-import NonSignedInNavbar from '../components/NonSignedInNavbar';
+import SignedInProfessionalNavbar from '../components/navbar/SignedInProfessionalNavbar';
+import NonSignedInNavbar from '../components/navbar/NonSignedInNavbar';
 import {Box, Grid, Card, Link, Typography} from "@mui/material"
-import SignedInUserNavbar from '../components/SignedInUserNavbar';
+import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
 import GlobalStyles from "@mui/material/GlobalStyles";
 
 

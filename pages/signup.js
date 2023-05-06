@@ -1,6 +1,6 @@
 import { Button, TextField, Card, Box, Typography, Stack, Grid, Switch, FormControlLabel, Alert, Link } from "@mui/material";
 import React, {useState, useEffect} from "react";
-import NonSignedInNavbar from "../components/NonSignedInNavbar";
+import NonSignedInNavbar from "../components/navbar/NonSignedInNavbar";
 import axios from "axios";
 import {useRef} from "react";
 import GlobalStyles from "@mui/material/GlobalStyles";

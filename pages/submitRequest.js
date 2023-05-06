@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react'
 import {useEffect, useState, useRef } from 'react';
 import {Box, Grid, Card, Link, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Alert} from "@mui/material"
-import SignedInUserNavbar from '../components/SignedInUserNavbar';
+import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
 import GlobalStyles from "@mui/material/GlobalStyles";
 import axios from "axios";
 

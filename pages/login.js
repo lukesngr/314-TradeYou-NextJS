@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import App from "next/app";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import NonSignedInNavbar from "../components/NonSignedInNavbar";
+import NonSignedInNavbar from "../components/navbar/NonSignedInNavbar";
 
 export default function Login() {
     const formReference = useRef();

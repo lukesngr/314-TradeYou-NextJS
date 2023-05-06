@@ -1,32 +1,13 @@
 import { useSession } from 'next-auth/react';
-import SignedInProfessionalNavbar from '../components/SignedInProfessionalNavbar';
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Box, Grid, Card, Stack, Chip, Button } from '@mui/material';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SignedInProfessionalNavbar from '../components/navbar/SignedInProfessionalNavbar';
+import { Box, Card, Stack} from '@mui/material';
 import axios from "axios";
 import { useState, useEffect } from 'react';
-
-async function completeRequest(requestID) {
-    try {
-        await axios.post("/api/modifyRequest", {serviceRequestID: requestID, status: "complete"});
-    }catch (error) {
-        console.log
-    }
-}
 
 const availableJobs = () => {
     const {data: session, status } = useSession();
     const [serviceRequests, setServiceRequests] = useState([]);
     const [professionalID, setProfessionalID] = useState(0);
-
-    async function acceptRequest(requestID) {
-        try {
-            console.log(professionalID);
-            await axios.post("/api/appendToRequest", {serviceRequestID: requestID, status: '#'+professionalID});
-        }catch (error) {
-            console.log
-        }
-    }
 
     useEffect(() => {
         
@@ -73,43 +54,19 @@ const availableJobs = () => {
     if(session) {
         if(session.user.userCategory == "professional") {
             return (
-                <Box>
+                <>
                     <SignedInProfessionalNavbar></SignedInProfessionalNavbar>
-                        <Grid container sx={{my: 10}} spacing={2}>
-                            <Grid item xs={4}></Grid>
-                            <Grid item xs={4}>
-                                <Card sx={{p: 10}}>
-                                        <Stack direction="column">
-                                           {serviceRequests.map(serviceRequest => (
-                                            <Box>
-                                                    <Accordion fullWidth={true}>
-                                                        <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{backgroundColor: "primary.main" }}>
-                                                            <Typography>{serviceRequest.name}</Typography>
-                                                            
-                                                        </AccordionSummary>
-                                                        <AccordionDetails sx={{backgroundColor: "primary.main" }}>
-                                                            <Grid container spacing={2}>
-                                                                <Grid item xs={7}><Typography>{serviceRequest.description}</Typography></Grid>
-                                                                <Grid item xs={5}>
-                                                                    <Chip label={serviceRequest.category} variant="outlined" />
-                                                                    <Chip icon={<AttachMoneyIcon />} label={serviceRequest.price} />
-                                                                </Grid>
-                                                                <Grid item xs={12}>
-                                                                    {serviceRequest.submitted && <Button variant="contained" onClick={()=> acceptRequest(serviceRequest.id)} color="success" >Accept</Button>}
-                                                                    {serviceRequest.paccepted && <Chip color="success" label="Submitted" />}
-                                                                    {serviceRequest.caccepted && <Button variant="contained" onClick={()=> completeRequest(serviceRequest.id)} color="success" >Complete</Button>}
-                                                                </Grid>
-                                                            </Grid>
-                                                        </AccordionDetails>
-                                                    </Accordion>
-                                            </Box>
-                                            ))}
-                                        </Stack>
-                                </Card>
-                            </Grid>
-                            <Grid item xs={4}></Grid>
-                        </Grid>
-                </Box>
+                    <Box sx={{alignSelf: 'center'}} >
+                        <Card sx={{p: 10}}>
+                            <Stack direction="column">
+                                {serviceRequests.map(serviceRequest => (
+                                    <ProfessionalAccordion id={serviceRequest.id} name={serviceRequest.name} desc={serviceRequest.description} 
+                                    category={serviceRequest.category} price={serviceRequest.price} profID={professionalID}></ProfessionalAccordion>
+                                ))}
+                            </Stack>
+                        </Card>
+                    </Box>
+                </>
             )
         }
     }
