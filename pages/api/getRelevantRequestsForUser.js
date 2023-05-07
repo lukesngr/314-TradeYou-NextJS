@@ -24,9 +24,7 @@ export default async(req, res) => {
             })
             
             let serviceReqs = serviceRequests.ServiceRequest;
-            console.log(serviceReqs)
             for(var i = 0; i < serviceReqs.length; i++) {
-                console.log("yea");
                 if(serviceReqs[i].status == "paccept") {
                     const usernamesOfAcceptors = await prisma.serviceRequest.findUnique({
                         where: {
