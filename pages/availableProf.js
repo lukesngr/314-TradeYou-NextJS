@@ -1,8 +1,10 @@
 import { useSession } from 'next-auth/react';
 import SignedInProfessionalNavbar from '../components/navbar/SignedInProfessionalNavbar';
-import { Box, Card, Stack} from '@mui/material';
+import { Box, Card, Stack, Typography} from '@mui/material';
 import axios from "axios";
 import { useState, useEffect } from 'react';
+import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
+import Router from 'next/router';
 
 const availableJobs = () => {
     const {data: session, status } = useSession();
@@ -21,12 +23,13 @@ const availableJobs = () => {
         
             if(data != undefined) {
                 data = data.data;
-                if(data[data.length-1].professionalID != null) {
-                    setProfessionalID(data[data.length-1].professionalID);
-                    delete data[data.length-1];
+                var newDataLength = data.length-1;
+                if(data[newDataLength].professionalID != null) {
+                    setProfessionalID(data[newDataLength].professionalID);
+                    delete data[newDataLength];
                 }
                 
-                for (var i = 0; i < data.length-1; i++) {
+                for (var i = 0; i < newDataLength; i++) {
                     data[i].submitted = false;
                     data[i].paccepted = false;
                     data[i].caccepted = false;
@@ -51,17 +54,17 @@ const availableJobs = () => {
         }
     });
 
-    if(session) {
+    if(status == "authenticated") {
         if(session.user.userCategory == "professional") {
             return (
                 <>
                     <SignedInProfessionalNavbar></SignedInProfessionalNavbar>
-                    <Box sx={{alignSelf: 'center'}} >
-                        <Card sx={{p: 10}}>
+                    <Box sx={{display: 'flex', justifyContent: 'center'}} >
+                        <Card sx={{p: 5, my: 10}}>
+                            <Typography variant="h5">Available Jobs</Typography>
                             <Stack direction="column">
                                 {serviceRequests.map(serviceRequest => (
-                                    <ProfessionalAccordion id={serviceRequest.id} name={serviceRequest.name} desc={serviceRequest.description} 
-                                    category={serviceRequest.category} price={serviceRequest.price} profID={professionalID}></ProfessionalAccordion>
+                                    <ProfessionalAccordion {...serviceRequest} profID={professionalID}></ProfessionalAccordion>
                                 ))}
                             </Stack>
                         </Card>
@@ -69,6 +72,10 @@ const availableJobs = () => {
                 </>
             )
         }
+    }else if(status == "loading") {
+        return <Typography variant="h3">Loading...</Typography>
+    }else if(status == "unauthenticated") {
+        Router.push('/');
     }
 }
 

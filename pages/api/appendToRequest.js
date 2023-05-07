@@ -11,7 +11,7 @@ export default async(req, res) => {
                     id: data.serviceRequestID
                 },
                 select: {
-                    status: true;
+                    status: true
                 }
             });
 
