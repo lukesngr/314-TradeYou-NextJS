@@ -3,7 +3,7 @@ import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
 import { Box, Card, Stack, Typography} from '@mui/material';
 import axios from "axios";
 import { useState, useEffect } from 'react';
-import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
+import UserAccordion from '../components/accordion/UserAccordion';
 import Router from 'next/router';
 
 const availableJobs = () => {
@@ -22,10 +22,21 @@ const availableJobs = () => {
         
             if(data != undefined) {
                 data = data.data;
+                for (var i = 0; i < data.length; i++) {
+                    data[i].paccepted = false;
+                    data[i].caccepted = false;
+                    data[i].done = false;
+                    if(data[i].status == "done") {
+                        data[i].done = true;
+                    }else if(data[i].status == "caccept") {
+                        data[i].caccepted = true;
+                    }else if(data[i].status == "paccept") {
+                        data[i].paccepted = true;
+                    }
+                }
             }
 
             setServiceRequests(data);
-            console.log(data)
     
         }
 
