@@ -6,25 +6,23 @@ export default async(req, res) => {
     let data = req.body;
     try
         {
-            const originalValue = await prisma.serviceRequest.findUnique({
-                where: {
-                    id: data.serviceRequestID
-                },
-                select: {
-                    status: true
+            const result = await prisma.professionalsThatAcceptRequest.create({
+                data: {
+                    userName: data.userName,
+                    serviceRequest: { connect: {id: data.serviceRequestID}}
                 }
-            });
+            })
 
-            const result = await prisma.serviceRequest.update({
+            const resultTwo = await prisma.serviceRequest.update({
                 where: {
                     id: data.serviceRequestID
                 },
                 data: {
-                    status: originalValue+data.status
+                    status: "paccept"
                 }
             });
 
-            res.status(200).json(result);
+            res.status(200).json(result+resultTwo);
         }
         catch (err)
         {   

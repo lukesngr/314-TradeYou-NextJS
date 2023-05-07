@@ -9,7 +9,6 @@ import Router from 'next/router';
 const availableJobs = () => {
     const {data: session, status } = useSession();
     const [serviceRequests, setServiceRequests] = useState([]);
-    const [professionalID, setProfessionalID] = useState(0);
 
     useEffect(() => {
         
@@ -23,13 +22,8 @@ const availableJobs = () => {
         
             if(data != undefined) {
                 data = data.data;
-                var newDataLength = data.length-1;
-                if(data[newDataLength].professionalID != null) {
-                    setProfessionalID(data[newDataLength].professionalID);
-                    delete data[newDataLength];
-                }
                 
-                for (var i = 0; i < newDataLength; i++) {
+                for (var i = 0; i < data.length; i++) {
                     data[i].submitted = false;
                     data[i].paccepted = false;
                     data[i].caccepted = false;
@@ -39,7 +33,7 @@ const availableJobs = () => {
                         delete data[i];
                     }else if(data[i].status == "caccept") {
                         data[i].caccepted = true;
-                    }else{
+                    }else if(data[i].status == "paccept") {
                         data[i].paccepted = true;
                     }
                 }
@@ -64,7 +58,7 @@ const availableJobs = () => {
                             <Typography variant="h5">Available Jobs</Typography>
                             <Stack direction="column">
                                 {serviceRequests.map(serviceRequest => (
-                                    <ProfessionalAccordion {...serviceRequest} profID={professionalID}></ProfessionalAccordion>
+                                    <ProfessionalAccordion {...serviceRequest} userName={session.user.username}></ProfessionalAccordion>
                                 ))}
                             </Stack>
                         </Card>
