@@ -28,16 +28,19 @@ function UserAccordion(props) {
             <AccordionDetails sx={{display: 'flex', justifyContent: 'space-between', backgroundColor: "primary.main" }}>
                 <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexWrap: 'nowrap', alignContent: 'flex-start', mr: '4em'}}>
                     <Typography variant='body2'>{props.description}</Typography><br />
-                    <Button sx={{mb: 2}} variant="contained" color="success" onClick={() => grantJobto()}>Grant Job To</Button>
+                    {props.paccepted && <>
+                    <Button sx={{mb: 2}} variant="contained" color="success" onClick={() => grantJobto()}>Grant Job To</Button>       
                     <FormControl>
                         <InputLabel id="service-category-label">User</InputLabel>
-                        <Select id="grantRequestTo" value={category} name="grantRequestTo" onChange={handleChange}>
-                                                    
+                        <Select id="grantRequestTo" value={category} name="grantRequestTo" onChange={handleChange}>                 
                             {props.acceptors.map((acceptor, index) => (
                                 <MenuItem value={index}>{acceptor.userName}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
+                    </>
+                    }
+                    {props.caccepted && <Typography variant="body1">Professional is now working on this</Typography>}
                 </Box>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', flexWrap: 'nowrap'}}>
                     <Chip label={props.category} variant="outlined" />

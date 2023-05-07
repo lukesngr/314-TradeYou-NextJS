@@ -29,7 +29,7 @@ const availableJobs = () => {
                     data[i].caccepted = false;
                     if(data[i].status == "submitted") {
                         data[i].submitted = true;
-                    }else if(data[i].status == "done") {
+                    }else if(data[i].status == "complete") {
                         delete data[i];
                     }else if(data[i].status == "caccept") {
                         data[i].caccepted = true;
