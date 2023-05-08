@@ -8,17 +8,31 @@ import Rating from '@mui/material/Rating';
 
 
 function UserAccordion(props) {
+    let initialRating = 5;
+    let initialReviewDescription = "Review of the job";
+
+    if(props.review.length != 0) {
+        initialRating = props.review[0].value;
+        initialReviewDescription = props.review[0].description;
+    }
+
     const [profToGrantJobTo, setProfToGrantJobTo] = useState('0');
-    const [rating, setRating] = useState(2);
-    const [submittedReview, setSubmitted] = useState(false)
+    const [rating, setRating] = useState(initialRating);
+    const [reviewDesc, setReviewDescription] = useState(initialReviewDescription);
+    const [professionalAccepted, setProfessionalAccepted] = useState(props.status == "paccept");
+    const [userAccepted, setUserAccepted] = useState(props.status == "caccept")
+    const [jobComplete, setJobComplete] = useState(props.status == "complete");
+    const [submittedReview, setSubmittedReview] = useState(props.review.length != 0);
+
     const handleSelectChange = (event) => { setProfToGrantJobTo(event.target.value); };
     const handleRatingChange = (event, newRating) => {setRating(newRating); };
-    const formReference = useRef();
 
     async function grantJobto() {
         try {
             let professionalUsername = props.acceptors[category].userName;
             await axios.post("/api/grantJobTo", {serviceRequestID: props.id, username: professionalUsername});
+            setUserAccepted(true);
+            setProfessionalAccepted(false);
         }catch (error) {
             console.log(error);
         }
@@ -26,8 +40,8 @@ function UserAccordion(props) {
 
     async function createReview() {
         try {
-            const {reviewDescription, ratingOfServices} = formReference.current;
-            await axios.post("/api/submitReview", {value: parseInt(ratingOfServices.value), description: reviewDescription.value, serviceRequest: { connect: {id: props.id}}});
+            await axios.post("/api/submitReview", {value: rating, description: reviewDesc, serviceRequest: { connect: {id: props.id}}});
+            setSubmittedReview(true);
         }catch (error) {
             console.log(error);
         }
@@ -42,7 +56,7 @@ function UserAccordion(props) {
                 <Box sx={{display: 'flex', justifyContent: 'space-between', backgroundColor: "primary.main" }} >
                     <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexWrap: 'nowrap', alignContent: 'flex-start', mr: '4em'}}>
                         <Typography variant='body2'>{props.description}</Typography><br />
-                        {props.paccepted && <>
+                        {professionalAccepted && <>
                         <Button sx={{mb: 2}} variant="contained" color="success" onClick={() => grantJobto()}>Grant Job To</Button>       
                         <FormControl>
                             <InputLabel id="service-category-label">User</InputLabel>
@@ -54,21 +68,23 @@ function UserAccordion(props) {
                         </FormControl>
                         </>
                         }
-                        {props.caccepted && <Typography variant="body1">Professional is now working on this</Typography>}
+                        {userAccepted && <Typography variant="body1">Professional is now working on this</Typography>}
                     </Box>
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', flexWrap: 'nowrap'}}>
                         <Chip label={props.category} variant="outlined" />
                         <Chip label={props.price} icon={<AttachMoneyIcon />} />
                     </Box>
                 </Box>
-                <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'nowrap'}}>
-                
-                    <TextareaAutosize name="reviewDescription" minRows={4} style={{flexGrow: 4, mr: 2}} placeholder="Review of job"></TextareaAutosize>
-                    <Rating name="ratingOfServices" value={rating} onChange={handleRatingChange} />
-                    
-                    
-                </Box>
-                <Button variant="contained" onClick={()=> createReview()} color="success" >Submit</Button>
+                {jobComplete && 
+                <>
+                    <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'nowrap'}}>     
+                        <TextareaAutosize name="reviewDescription" minRows={4} style={{flexGrow: 4, mr: 2}} defaultValue={reviewDesc}></TextareaAutosize>
+                        <Rating name="ratingOfServices" value={rating} onChange={handleRatingChange} />  
+                    </Box>
+                    {!submittedReview && <Button variant="contained" onClick={()=> createReview()} color="success" >Submit</Button> }
+                    {submittedReview &&<Button variant="contained" onClick={()=> createReview()} color="success" >Change</Button> }
+                </>
+                }
                 
             </AccordionDetails>
         </Accordion>

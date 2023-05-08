@@ -24,17 +24,8 @@ const availableJobs = () => {
                 data = data.data;
                 
                 for (var i = 0; i < data.length; i++) {
-                    data[i].submitted = false;
-                    data[i].paccepted = false;
-                    data[i].caccepted = false;
-                    if(data[i].status == "submitted") {
-                        data[i].submitted = true;
-                    }else if(data[i].status == "complete") {
+                    if(data[i].status == "complete") {
                         delete data[i];
-                    }else if(data[i].status == "caccept") {
-                        data[i].caccepted = true;
-                    }else if(data[i].status == "paccept") {
-                        data[i].paccepted = true;
                     }
                 }
             }

@@ -1,9 +1,9 @@
 import { useSession } from 'next-auth/react';
-import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
+import SignedInProfessionalNavbar from '../components/navbar/SignedInProfessionalNavbar';
 import { Box, Card, Stack, Typography} from '@mui/material';
 import axios from "axios";
 import { useState, useEffect } from 'react';
-import UserAccordion from '../components/accordion/UserAccordion';
+import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
 import Router from 'next/router';
 
 const availableJobs = () => {
@@ -15,13 +15,14 @@ const availableJobs = () => {
         const getRequests = async () => {
             let data = {data:{}};
             try {
-                data = await axios.get('http://localhost:3000/api/getRelevantRequestsForUser', {params: {username: session.user.username}});
+                data = await axios.get('http://localhost:3000/api/getCompletedJobs', {params: {username: session.user.username}});
             }catch (error) {
                 console.log(error)
             }
         
             if(data != undefined) {
                 data = data.data;
+                
             }
 
             setServiceRequests(data);
@@ -34,16 +35,16 @@ const availableJobs = () => {
     });
 
     if(status == "authenticated") {
-        if(session.user.userCategory == "user") {
+        if(session.user.userCategory == "professional") {
             return (
                 <>
-                    <SignedInUserNavbar></SignedInUserNavbar>
+                    <SignedInProfessionalNavbar></SignedInProfessionalNavbar>
                     <Box sx={{display: 'flex', justifyContent: 'center'}} >
                         <Card sx={{p: 5, my: 10}}>
-                            <Typography variant="h5">My Requests</Typography>
+                            <Typography variant="h5">Completed Jobs</Typography>
                             <Stack direction="column">
                                 {serviceRequests.map(serviceRequest => (
-                                    <UserAccordion {...serviceRequest}></UserAccordion>
+                                    <ProfessionalAccordion {...serviceRequest} userName={session.user.username}></ProfessionalAccordion>
                                 ))}
                             </Stack>
                         </Card>
