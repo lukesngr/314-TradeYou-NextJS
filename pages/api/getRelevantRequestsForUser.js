@@ -38,7 +38,21 @@ export default async(req, res) => {
                     });
                     serviceReqs[i].acceptors = usernamesOfAcceptors.ProfessionalsThatAcceptRequest; 
                 }
+
+                const reviewsOfRequests = await prisma.serviceRequest.findUnique({
+                    where: {
+                      id: serviceReqs[i].id
+                    },
+                    select: {
+                        Review: true 
+                    }
+                });
+
+                serviceReqs[i].review = reviewsOfRequests.Review;
+                
             }
+
+            
 
             res.status(200).json(serviceReqs);
         }

@@ -15,8 +15,6 @@ export default async(req, res) => {
        for (var i = 0; i < serviceRequests.length; i++) {
             if(serviceRequests[i].status == "caccept") {
                 if(serviceRequests[i].professionalID != currentProfessionalID.id) {
-                    console.log(serviceRequests[i].professionalID)
-                    console.log(currentProfessionalID.id)
                     delete serviceRequests[i];
                     
                 }

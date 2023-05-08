@@ -26,12 +26,10 @@ export default function Login() {
     }
 
     return (
-        <Box>
+        <>
             <GlobalStyles styles={{body: { margin: 0 }}}/>
             <NonSignedInNavbar></NonSignedInNavbar>  
-            <Grid container sx={{my: 10}} spacing={2}>
-                <Grid item xs={4}></Grid>
-                <Grid item xs={4}>
+            <Box sx={{display: 'flex', justifyContent: 'center'}} >
                     <Card>
                         <Box>
                             <form ref={formReference}>
@@ -53,10 +51,8 @@ export default function Login() {
                             </form>
                         </Box>
                     </Card>
-                </Grid>
-                <Grid item xs={4}></Grid>
-            </Grid>
-        </Box>
+            </Box>
+        </>
         
     );
 

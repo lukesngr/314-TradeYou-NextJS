@@ -47,12 +47,10 @@ const submitRequest = () => {
         if(session.user.userCategory == "user") {
             
             return (
-            <Box>
+            <>
                 <GlobalStyles styles={{body: { margin: 0 }}}/> 
                 <SignedInUserNavbar></SignedInUserNavbar> 
-                <Grid container sx={{my: 10}} spacing={2}>
-                    <Grid item xs={4}></Grid>
-                    <Grid item xs={4}>
+                <Box sx={{display: 'flex', justifyContent: 'center'}} >
                         <Card>
                             <Box>
                                 <form ref={formReference}>
@@ -103,10 +101,8 @@ const submitRequest = () => {
                             </form>
                         </Box>
                     </Card>
-                </Grid>
-                <Grid item xs={4}></Grid>
-                </Grid>
-            </Box>
+                </Box>
+            </>
                 
                 )
         }

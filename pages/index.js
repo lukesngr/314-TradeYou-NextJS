@@ -20,11 +20,9 @@ const HomePage = () => {
         }
     } else {
         return (
-            <Box>
+            <>
             <NonSignedInNavbar></NonSignedInNavbar>
-            <Grid container sx={{my: 10}} spacing={2}>
-                <Grid item xs={4}></Grid>
-                <Grid item xs={4}>
+            <Box sx={{display: 'flex', justifyContent: 'center'}} >
                     <Card sx={{p: 10}}>
                         <Box>
                             <Grid container alignItems="center" spacing={1}>
@@ -37,10 +35,8 @@ const HomePage = () => {
                             </Grid>
                         </Box>
                     </Card>
-                </Grid>
-            <Grid item xs={4}></Grid>
-        </Grid>
-        </Box>
+            </Box>
+        </>
         )
     }
 
