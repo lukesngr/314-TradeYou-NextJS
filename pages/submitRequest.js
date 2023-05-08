@@ -50,26 +50,16 @@ const submitRequest = () => {
             <>
                 <GlobalStyles styles={{body: { margin: 0 }}}/> 
                 <SignedInUserNavbar></SignedInUserNavbar> 
-                <Box sx={{display: 'flex', justifyContent: 'center'}} >
+                <Box sx={{display: 'flex', justifyContent: 'center', mt: 10}} >
                         <Card>
                             <Box>
                                 <form ref={formReference}>
-                                    <Grid container alignItems="center" spacing={1}>
-                                        <Grid item xs={3}></Grid>
-                                            <Grid item xs={6}><Typography variant="h4">Submit a request</Typography></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={6}><TextField fullWidth={true} name="requestName" id="standard-basic" label="Name" variant="standard" /></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={6}><TextField fullWidth={true} name="requestDescription" id="standard-password-input" label="Description" variant="standard" /></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={6}>
-                                                <TextField fullWidth={true} name="requestPrice" id="standard-number" label="Desired Price ($)"  variant="standard" /></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={6}><Box>
+                                    <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
+                                            <Typography variant="h4">Submit a request</Typography>
+                                            <TextField fullWidth={true} name="requestName" id="standard-basic" label="Name" variant="standard" />
+                                            <TextField fullWidth={true} name="requestDescription" id="standard-password-input" label="Description" variant="standard" />
+                                                <TextField fullWidth={true} name="requestPrice" id="standard-number" label="Desired Price ($)"  variant="standard" />
+                                            <Box>
                                                 <FormControl fullWidth>
                                                 <InputLabel id="service-category-label">Service Category</InputLabel>
                                                 <Select
@@ -90,14 +80,10 @@ const submitRequest = () => {
                                                     <MenuItem value={10}>Garage Services</MenuItem>
                                                 </Select>
                                                 </FormControl>
-                                            </Box></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={3}></Grid>
-                                            <Grid item xs={6}><Button fullWidth variant="contained" color="primary" onClick={()=> submitNewRequest()}>Submit</Button></Grid>
-                                            <Grid item xs={3}></Grid>
+                                            </Box>
+                                            <Button fullWidth variant="contained" color="primary" onClick={()=> submitNewRequest()}>Submit</Button>
                                             {succAlertVisible && <Alert severity="success">Submitted request</Alert>}
-                                            <Grid item xs={12}></Grid>
-                                </Grid>
+                                </Box>
                             </form>
                         </Box>
                     </Card>

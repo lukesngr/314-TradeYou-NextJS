@@ -22,17 +22,11 @@ const HomePage = () => {
         return (
             <>
             <NonSignedInNavbar></NonSignedInNavbar>
-            <Box sx={{display: 'flex', justifyContent: 'center'}} >
+            <Box sx={{display: 'flex', justifyContent: 'center', mt: 10}} >
                     <Card sx={{p: 10}}>
-                        <Box>
-                            <Grid container alignItems="center" spacing={1}>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={6}><Typography variant="h4">Welcome</Typography></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={6}><Link href="/login">Please Go To Login or Signup</Link></Grid>
-                                <Grid item xs={3}></Grid>
-                            </Grid>
+                        <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
+                            <Typography variant="h4">Welcome</Typography>
+                            <Link href="/login">Please Go To Login or Signup</Link>
                         </Box>
                     </Card>
             </Box>

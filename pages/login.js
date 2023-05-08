@@ -29,25 +29,16 @@ export default function Login() {
         <>
             <GlobalStyles styles={{body: { margin: 0 }}}/>
             <NonSignedInNavbar></NonSignedInNavbar>  
-            <Box sx={{display: 'flex', justifyContent: 'center'}} >
+            <Box sx={{display: 'flex', justifyContent: 'center', mt: 10}} >
                     <Card>
                         <Box>
                             <form ref={formReference}>
-                            <Grid container alignItems="center" spacing={1}>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={6}><Typography variant="h4">Login</Typography></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={6}><TextField fullWidth="true" name="userName" id="standard-basic" label="Username" variant="standard" /></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={6}><TextField fullWidth="true" name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" /></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={6}><Button fullWidth variant="contained" color="primary" onClick={()=> loginUser()}>Sign In</Button></Grid>
-                                <Grid item xs={3}></Grid>
-                                <Grid item xs={12}></Grid>
-                            </Grid>
+                            <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
+                                <Typography variant="h4">Login</Typography>
+                                <TextField fullWidth="true" name="userName" id="standard-basic" label="Username" variant="standard" />
+                                <TextField fullWidth="true" name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" />
+                                <Button fullWidth variant="contained" color="primary" onClick={()=> loginUser()}>Sign In</Button>
+                            </Box>
                             </form>
                         </Box>
                     </Card>

@@ -38,45 +38,28 @@ export default function SignUp() {
         <>
             <GlobalStyles styles={{body: { margin: 0 }}}/> 
             <NonSignedInNavbar></NonSignedInNavbar> 
-            <Box sx={{display: 'flex', justifyContent: 'center'}} >
+            <Box sx={{display: 'flex', justifyContent: 'center', my: 10}} >
                     <Card>
                         <Box>
                             <form ref={formReference}>
-                                <Grid container alignItems="center" spacing={1}>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><Typography variant="h4">Create account</Typography></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><TextField fullWidth="true" name="userName" id="standard-basic" label="Username" variant="standard" /></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><TextField fullWidth="true" name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" /></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><TextField fullWidth="true" name="userEmail" id="standard-basic" label="Email" variant="standard" /></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><TextField fullWidth="true" name="userPhone" id="standard-number" label="Phone Number" variant="standard"></TextField></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><TextField fullWidth="true" name="userAddress" id="standard-basic" label="Address" variant="standard"></TextField></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><FormControlLabel fullWidth="true"  control={<Switch onChange={(event, val) => {
+                                <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
+                                    <Typography variant="h4">Create account</Typography>
+                                    <TextField fullWidth="true" name="userName" id="standard-basic" label="Username" variant="standard" />
+                                    <TextField fullWidth="true" name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" />
+                                    <TextField fullWidth="true" name="userEmail" id="standard-basic" label="Email" variant="standard" />
+                                    <TextField fullWidth="true" name="userPhone" id="standard-number" label="Phone Number" variant="standard"></TextField>
+                                    <TextField fullWidth="true" name="userAddress" id="standard-basic" label="Address" variant="standard"></TextField>       
+                                    <FormControlLabel fullWidth="true"  control={<Switch onChange={(event, val) => {
                                         if (val) {
                                             setValue("professional")
                                         }else{
                                             setValue("user")
                                         }    
-                                    }} name="isProfessional" value={value} color="primary" />} label="Professional" labelPlacement="start" /></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={3}></Grid>
-                                    <Grid item xs={6}><Button fullWidth variant="contained" color="primary" onClick={()=> createNewUser()}>Create</Button></Grid>
-                                    <Grid item xs={3}></Grid>
+                                    }} name="isProfessional" value={value} color="primary" />} label="Professional" labelPlacement="start" />
+                                    <Button fullWidth variant="contained" color="primary" onClick={()=> createNewUser()}>Create</Button>  
                                     {succAlertVisible && <Alert severity="success">Create account please proceed to <Link href="/">Login</Link></Alert>}
-                                    {errAlertVisible && <Alert severity="warning">Error occurred, please contact developer at lukesngr@gmail.com</Alert>}
-                                    <Grid item xs={12}></Grid>
-                                </Grid>
+                                    {errAlertVisible && <Alert severity="warning">Error occurred, please contact developer at lukesngr@gmail.com</Alert>}  
+                                </Box>
                             </form>
                         </Box>
                     </Card>
