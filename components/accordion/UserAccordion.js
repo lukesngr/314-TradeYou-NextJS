@@ -33,7 +33,6 @@ function UserAccordion(props) {
             await axios.post("/api/grantJobTo", {serviceRequestID: props.id, username: professionalUsername});
             setUserAccepted(true);
             setProfessionalAccepted(false);
-            toast('Granted access '+props.acceptor[category].userName, { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
             toast('Error:  '+error, { hideProgressBar: true, type: 'error' });
         }
@@ -43,7 +42,6 @@ function UserAccordion(props) {
         try {
             await axios.post("/api/submitReview", {value: rating, description: reviewDesc, serviceRequest: { connect: {id: props.id}}});
             setSubmittedReview(true);
-            toast('Review submitted', { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
             toast('Error:  '+error, { hideProgressBar: true, type: 'error' });
         }

@@ -25,7 +25,6 @@ const HomePage = () => {
                     <Card sx={{p: 10}}>
                         <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
                             <Typography variant="h4">Welcome</Typography>
-                            <Link href="/login">Please Go To Login or Signup</Link>
                         </Box>
                     </Card>
                 </Box>

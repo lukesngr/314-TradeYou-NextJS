@@ -22,7 +22,6 @@ function ProfessionalAccordion(props) {
             await axios.post("/api/appendToRequest", {serviceRequestID: props.id, userName: props.userName});
             setSubmitted(false);
             setPaccepted(true);
-            toast('Request accepted', { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
             toast('Error: '+error, { hideProgressBar: true, type: 'error' });
         }
@@ -33,7 +32,6 @@ function ProfessionalAccordion(props) {
             await axios.post("/api/modifyRequest", {serviceRequestID: props.id, status: "complete"});
             setPaccepted(false);
             setCaccepted(true);
-            toast('Request completed', { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
             toast('Error: '+error, { hideProgressBar: true, type: 'error' });
         }
