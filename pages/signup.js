@@ -4,6 +4,7 @@ import NonSignedInNavbar from "../components/navbar/NonSignedInNavbar";
 import axios from "axios";
 import {useRef} from "react";
 import GlobalStyles from "@mui/material/GlobalStyles";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
     const formReference = useRef()
@@ -18,21 +19,17 @@ export default function SignUp() {
         try {
             const req = await axios.post("/api/createAccount", {username, password, email, phone, address, professional});
             if (req.status == 200) {
-                setSuccAlertVisible(true);
+                toast('Created account', { hideProgressBar: true, autoClose: 2000, type: 'success' });
             }else{
-                setSuccAlertVisible(false);
-                setErrAlertVisible(true);
-                
+                toast('Error occurred please contact lukesngr@gmail.com', { hideProgressBar: true, autoClose: 2000, type: 'error' });
             }
         }catch (error) {
-            setErrAlertVisible(true);
+            toast('Error: ' + error, { hideProgressBar: true, autoClose: 2000, type: 'error' });
         }
         
     }
 
     const [value, setValue] = useState("user");
-    const [succAlertVisible, setSuccAlertVisible] = useState(false);
-    const [errAlertVisible, setErrAlertVisible] = useState(false);
 
     return (
         <>
@@ -57,8 +54,6 @@ export default function SignUp() {
                                         }    
                                     }} name="isProfessional" value={value} color="primary" />} label="Professional" labelPlacement="start" />
                                     <Button fullWidth variant="contained" color="primary" onClick={()=> createNewUser()}>Create</Button>  
-                                    {succAlertVisible && <Alert severity="success">Create account please proceed to <Link href="/">Login</Link></Alert>}
-                                    {errAlertVisible && <Alert severity="warning">Error occurred, please contact developer at lukesngr@gmail.com</Alert>}  
                                 </Box>
                             </form>
                         </Box>

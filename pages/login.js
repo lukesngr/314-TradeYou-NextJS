@@ -1,10 +1,9 @@
-import { Button, TextField, Card, Box, Typography, Stack, Grid, Switch, FormControlLabel, Alert, Link, AppBar, Container, Toolbar } from "@mui/material";
+import { Button, TextField, Card, Box, Typography } from "@mui/material";
 import {useRef} from "react";
 import { signIn } from 'next-auth/react';
-import Image from 'next/image';
-import App from "next/app";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import NonSignedInNavbar from "../components/navbar/NonSignedInNavbar";
+import { toast } from "react-toastify";
 
 export default function Login() {
     const formReference = useRef();
@@ -20,7 +19,7 @@ export default function Login() {
         
 
         if(res?.error) {
-            console.log(res);
+            toast('Error: '+res.error, { hideProgressBar: true, autoClose: 2000, type: 'error' });
         }
         
     }

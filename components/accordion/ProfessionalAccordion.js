@@ -3,22 +3,28 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography, Box, Chip, Button, Rating, } from '@mui/material';
 import axios from "axios";
 import { useState } from 'react';
+import {toast} from 'react-toastify';
 
 function ProfessionalAccordion(props) {
 
+    let propsValue = 0;
+    if(props.review != undefined) {
+        propsValue = props.review[0].value;
+    }
     const [submitted, setSubmitted] = useState(props.status == "submitted");
     const [caccepted, setCaccepted] = useState(props.status == "caccept");
     const [paccepted, setPaccepted] = useState(props.status == "paccept");
     const [jobComplete, setJobComplete] = useState(props.status == "complete");
-    const [rating, setRating] = useState(props.review[0].value);
+    const [rating, setRating] = useState(propsValue);
 
     async function acceptRequest() {
         try {
             await axios.post("/api/appendToRequest", {serviceRequestID: props.id, userName: props.userName});
             setSubmitted(false);
             setPaccepted(true);
+            toast('Request accepted', { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
-            console.log(error);
+            toast('Error: '+error, { hideProgressBar: true, type: 'error' });
         }
     }
     
@@ -27,12 +33,11 @@ function ProfessionalAccordion(props) {
             await axios.post("/api/modifyRequest", {serviceRequestID: props.id, status: "complete"});
             setPaccepted(false);
             setCaccepted(true);
+            toast('Request completed', { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
-            console.log(error);
+            toast('Error: '+error, { hideProgressBar: true, type: 'error' });
         }
     }
-
-    console.log(props.review[0].value)
 
     return (
         <Accordion>

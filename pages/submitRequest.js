@@ -1,16 +1,16 @@
 import { useSession } from 'next-auth/react'
 import {useEffect, useState, useRef } from 'react';
-import {Box, Grid, Card, Link, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Alert} from "@mui/material"
+import { toast } from "react-toastify";
+import {Box, Card, Link, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Alert} from "@mui/material"
 import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
 import GlobalStyles from "@mui/material/GlobalStyles";
 import axios from "axios";
 
 
 const submitRequest = () => {
-    const {data: session } = useSession();
+    const {data: session, status } = useSession();
     const formReference = useRef()
     const [category, setCategory] = useState('1');
-    const [succAlertVisible, setSuccAlertVisible] = useState('');
     const handleChange = (event) => { setCategory(event.target.value); console.log(event.target.value); };
 
     async function submitNewRequest(){
@@ -31,20 +31,19 @@ const submitRequest = () => {
         try {
             const req = await axios.post("/api/createRequest", {name, description, category, price, dateTime, status, userType, userName});
             if (req.status == 200) {
-                setSuccAlertVisible(true);
+                toast('Submitted request', { hideProgressBar: true, autoClose: 2000, type: 'success' });
             }else{
-                setSuccAlertVisible(false);
+                toast('Error occured please contact lukesngr@gmail.com', { hideProgressBar: true, autoClose: 2000, type: 'error' });
                 
             }
         }catch (error) {
-            console.log(error);
-            console.log("I hurt myself today to see if I still feel try to throw all away but I remember everything");
+            toast('Error: '+error, { hideProgressBar: true, autoClose: 2000, type: 'error' });
         }
         
     }
 
-    if(session) {
-        if(session.user.userCategory == "user") {
+    if(status == "authenticated") {
+        if(session.user.userCategory == "professional") {
             
             return (
             <>
@@ -82,7 +81,6 @@ const submitRequest = () => {
                                                 </FormControl>
                                             </Box>
                                             <Button fullWidth variant="contained" color="primary" onClick={()=> submitNewRequest()}>Submit</Button>
-                                            {succAlertVisible && <Alert severity="success">Submitted request</Alert>}
                                 </Box>
                             </form>
                         </Box>
@@ -92,10 +90,11 @@ const submitRequest = () => {
                 
                 )
         }
+    }else if(status == "loading") {
+        return <Typography variant="h3">Loading...</Typography>
+    }else if(status == "unauthenticated") {
+        Router.push('/');
     }
-
-    
-    
 }
 
 export default submitRequest

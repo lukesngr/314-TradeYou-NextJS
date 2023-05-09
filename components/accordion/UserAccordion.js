@@ -1,10 +1,10 @@
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography, Box, Chip, Button, FormControl, InputLabel, MenuItem, Select, TextareaAutosize} from '@mui/material';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import axios from "axios";
 import Rating from '@mui/material/Rating';
-
+import { toast } from 'react-toastify';
 
 
 function UserAccordion(props) {
@@ -33,8 +33,9 @@ function UserAccordion(props) {
             await axios.post("/api/grantJobTo", {serviceRequestID: props.id, username: professionalUsername});
             setUserAccepted(true);
             setProfessionalAccepted(false);
+            toast('Granted access '+props.acceptor[category].userName, { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
-            console.log(error);
+            toast('Error:  '+error, { hideProgressBar: true, type: 'error' });
         }
     }
 
@@ -42,8 +43,9 @@ function UserAccordion(props) {
         try {
             await axios.post("/api/submitReview", {value: rating, description: reviewDesc, serviceRequest: { connect: {id: props.id}}});
             setSubmittedReview(true);
+            toast('Review submitted', { hideProgressBar: true, autoClose: 2000, type: 'success' });
         }catch (error) {
-            console.log(error);
+            toast('Error:  '+error, { hideProgressBar: true, type: 'error' });
         }
     }
 

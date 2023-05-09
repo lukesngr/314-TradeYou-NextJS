@@ -17,7 +17,7 @@ const availableJobs = () => {
             try {
                 data = await axios.get('http://localhost:3000/api/getRelevantRequestsForProf', {params: {username: session.user.username}});
             }catch (error) {
-                console.log(error)
+                toast('Error:  '+error, { hideProgressBar: true, type: 'error' });
             }
         
             if(data != undefined) {
