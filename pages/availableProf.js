@@ -6,21 +6,25 @@ import { useState, useEffect } from 'react';
 import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
 import Router from 'next/router';
 
-const availableJobs = () => {
+const AvailableJobs = () => {
     const {data: session, status } = useSession();
     const [serviceRequests, setServiceRequests] = useState([]);
 
     useEffect(() => {
         
         const getRequests = async () => {
-            let data = {data:{}};
+            let data = {};
             try {
                 data = await axios.get('http://localhost:3000/api/getRelevantRequestsForProf', {params: {username: session.user.username}});
             }catch (error) {
                 console.log(error)
             }
+
+            if(data.data[0] === null) {
+                data.data = undefined
+            }
         
-            if(data != undefined) {
+            if(data.data != undefined) {
                 data = data.data;
                 
                 for (var i = 0; i < data.length; i++) {
@@ -28,6 +32,8 @@ const availableJobs = () => {
                         delete data[i];
                     }
                 }
+            }else{
+                data = []
             }
 
             setServiceRequests(data);
@@ -48,7 +54,7 @@ const availableJobs = () => {
                         <Card sx={{p: 5, my: 10}}>
                             <Typography variant="h5">Available Jobs</Typography>
                             <Stack direction="column">
-                                {serviceRequests.map(serviceRequest => (
+                                {serviceRequests?.map(serviceRequest => (
                                     <ProfessionalAccordion {...serviceRequest} userName={session.user.username}></ProfessionalAccordion>
                                 ))}
                             </Stack>
@@ -64,4 +70,4 @@ const availableJobs = () => {
     }
 }
 
-export default availableJobs
+export default AvailableJobs

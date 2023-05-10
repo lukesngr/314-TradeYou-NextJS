@@ -42,7 +42,7 @@ function SignedInUserNavbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Manage membership</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
     </Menu>
             </AppBar>

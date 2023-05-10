@@ -19,7 +19,7 @@ export default function Login() {
         
 
         if(res?.error) {
-            toast('Error: '+res.error, { hideProgressBar: true, autoClose: 2000, type: 'error' });
+            console.log(error);
         }
         
     }
@@ -34,9 +34,9 @@ export default function Login() {
                             <form ref={formReference}>
                             <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
                                 <Typography variant="h4">Login</Typography>
-                                <TextField fullWidth="true" name="userName" id="standard-basic" label="Username" variant="standard" />
-                                <TextField fullWidth="true" name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" />
-                                <Button fullWidth variant="contained" color="primary" onClick={()=> loginUser()}>Sign In</Button>
+                                <TextField fullWidth="true" name="userName" inputProps={{ "data-testid": "userName" }} label="Username" variant="standard" />
+                                <TextField fullWidth="true" name="userPassword" inputProps={{ "data-testid": "userPassword" }} label="Password" type="password" variant="standard" />
+                                <Button data-testid="loginButton" variant="contained" color="primary" onClick={()=> loginUser()}>Sign In</Button>
                             </Box>
                             </form>
                         </Box>

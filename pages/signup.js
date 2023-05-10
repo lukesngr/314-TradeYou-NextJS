@@ -4,7 +4,8 @@ import NonSignedInNavbar from "../components/navbar/NonSignedInNavbar";
 import axios from "axios";
 import {useRef} from "react";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignUp() {
     const formReference = useRef()
@@ -19,7 +20,7 @@ export default function SignUp() {
         try {
             const req = await axios.post("/api/createAccount", {username, password, email, phone, address, professional});
             if (req.status == 200) {
-                toast('Created account', { hideProgressBar: true, autoClose: 2000, type: 'success' });
+                toast.success('Created account');
             }else{
                 toast('Error occurred please contact lukesngr@gmail.com', { hideProgressBar: true, autoClose: 2000, type: 'error' });
             }
@@ -34,7 +35,9 @@ export default function SignUp() {
     return (
         <>
             <GlobalStyles styles={{body: { margin: 0 }}}/> 
-            <NonSignedInNavbar></NonSignedInNavbar> 
+            <ToastContainer /> 
+            <NonSignedInNavbar></NonSignedInNavbar>
+            
             <Box sx={{display: 'flex', justifyContent: 'center', my: 10}} >
                     <Card>
                         <Box>

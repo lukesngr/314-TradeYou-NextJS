@@ -24,6 +24,10 @@ export default async(req, res) => {
         });
 
         const serviceRequests = await prisma.serviceRequest.findMany();
+        const deniedRequestsForProfessional = await prisma.professionalsThatDenyRequest.findMany({
+            where: {userName: data.username},
+            select: {serviceRequestID: true}
+        })
 
        for (var i = 0; i < serviceRequests.length; i++) {
             if(serviceRequests[i].status == "caccept") {
@@ -38,7 +42,10 @@ export default async(req, res) => {
                 select: {address: true}
             })
 
-            if(getDistanceBetweenTwoAddresses(addressForProfessional, addressForUser.address) > 50) {
+
+            if(deniedRequestsForProfessional.some(iter => iter.serviceRequestID == serviceRequests[i].id)) {
+                delete serviceRequests[i];
+            }else if(getDistanceBetweenTwoAddresses(addressForProfessional, addressForUser.address) > 50) {
                 delete serviceRequests[i];
             }
 

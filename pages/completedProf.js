@@ -5,6 +5,7 @@ import axios from "axios";
 import { useState, useEffect } from 'react';
 import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
 import Router from 'next/router';
+import 'react-toastify/dist/ReactToastify.css';
 
 const availableJobs = () => {
     const {data: session, status } = useSession();

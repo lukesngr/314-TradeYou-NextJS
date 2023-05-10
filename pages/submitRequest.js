@@ -1,10 +1,12 @@
 import { useSession } from 'next-auth/react'
 import {useEffect, useState, useRef } from 'react';
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import {Box, Card, Link, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Alert} from "@mui/material"
 import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
 import GlobalStyles from "@mui/material/GlobalStyles";
 import axios from "axios";
+import Router from 'next/router';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const submitRequest = () => {
@@ -15,10 +17,8 @@ const submitRequest = () => {
 
     async function submitNewRequest(){
         var categories = ["Cleaning Services", "Home Repair and Maintenance", "Landscaping Services", "Moving and Storage Services ",
-                                                    "Home Improvement Services ",
-                                                    "Window Services ", "Painting Services", "Home Security Services ",
-                                                    "Paving Services ",
-                                                    "Garage Services"]
+                        "Home Improvement Services", "Window Services ", "Painting Services", "Home Security Services ",
+                        "Paving Services ", "Garage Services"]
         const {requestName, requestDescription, requestPrice, requestCategory} = formReference.current;
         const name = requestName.value;
         const description = requestDescription.value;
@@ -31,23 +31,23 @@ const submitRequest = () => {
         try {
             const req = await axios.post("/api/createRequest", {name, description, category, price, dateTime, status, userType, userName});
             if (req.status == 200) {
-                toast('Submitted request', { hideProgressBar: true, autoClose: 2000, type: 'success' });
+                toast.success('Submitted request');
             }else{
                 toast('Error occured please contact lukesngr@gmail.com', { hideProgressBar: true, autoClose: 2000, type: 'error' });
                 
             }
         }catch (error) {
-            toast('Error: '+error, { hideProgressBar: true, autoClose: 2000, type: 'error' });
+            console.log(error)
         }
         
     }
 
     if(status == "authenticated") {
-        if(session.user.userCategory == "professional") {
-            
+        if(session.user.userCategory == "user") {
             return (
             <>
                 <GlobalStyles styles={{body: { margin: 0 }}}/> 
+                <ToastContainer />
                 <SignedInUserNavbar></SignedInUserNavbar> 
                 <Box sx={{display: 'flex', justifyContent: 'center', mt: 10}} >
                         <Card>
