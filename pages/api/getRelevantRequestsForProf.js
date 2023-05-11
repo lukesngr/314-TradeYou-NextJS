@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 async function getDistanceBetweenTwoAddresses(addressOne, addressTwo) {
     let data = {}
     try {
-        data = await axios.get('https://maps.googleapis.com/maps/api/distancematrix/json', {params: {destinations: encodeURIComponent(addressOne), origins: encodeURIComponent(addressTwo), units: 'metric', key: 'AIzaSyDDmoQPhC9jJvsTZf0URLKWb2vCRVD8wtI'}});
+        data = await axios.get('https://maps.googleapis.com/maps/api/distancematrix/json', {params: {destinations: encodeURIComponent(addressOne), origins: encodeURIComponent(addressTwo), units: 'metric', key: GOOGLE_MAPS_API}});
     }catch (error) {
         console.log(error)
     }
@@ -45,9 +45,9 @@ export default async(req, res) => {
 
             if(deniedRequestsForProfessional.some(iter => iter.serviceRequestID == serviceRequests[i].id)) {
                 delete serviceRequests[i];
-            }else if(getDistanceBetweenTwoAddresses(addressForProfessional, addressForUser.address) > 50) {
-                delete serviceRequests[i];
-            }
+            }// accidentally used 454 of cloud free trial creditselse if(getDistanceBetweenTwoAddresses(addressForProfessional, addressForUser.address) > 50) {
+                //delete serviceRequests[i];
+            //}
 
        }
 

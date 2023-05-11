@@ -10,15 +10,17 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function SignUp() {
     const formReference = useRef()
     async function createNewUser(){
-        const { userName, userPassword, userEmail, userPhone, userAddress, isProfessional} = formReference.current;
+        const { userName, userPassword, userEmail, userPhone, userAddress, userCardNumber, userCardCVV, isProfessional} = formReference.current;
         const username = userName.value;
         const password = userPassword.value;
         const email = userEmail.value;
         const phone = userPhone.value;
         const address  = userAddress.value;
         const professional = isProfessional.value;
+        const creditCardNumber = userCardNumber.value;
+        const creditCardCVV = userCardCVV.value;
         try {
-            const req = await axios.post("/api/createAccount", {username, password, email, phone, address, professional});
+            const req = await axios.post("/api/createAccount", {username, password, email, phone, address, creditCardNumber, creditCardCVV, professional});
             if (req.status == 200) {
                 toast.success('Created account');
             }else{
@@ -26,6 +28,7 @@ export default function SignUp() {
             }
         }catch (error) {
             toast('Error: ' + error, { hideProgressBar: true, autoClose: 2000, type: 'error' });
+            console.log(error)
         }
         
     }
@@ -48,7 +51,9 @@ export default function SignUp() {
                                     <TextField fullWidth="true" name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" />
                                     <TextField fullWidth="true" name="userEmail" id="standard-basic" label="Email" variant="standard" />
                                     <TextField fullWidth="true" name="userPhone" id="standard-number" label="Phone Number" variant="standard"></TextField>
-                                    <TextField fullWidth="true" name="userAddress" id="standard-basic" label="Address" variant="standard"></TextField>       
+                                    <TextField fullWidth="true" name="userAddress" id="standard-basic" label="Address" variant="standard"></TextField>
+                                    <TextField fullWidth="true" name="userCardNumber" id="standard-number" label="Credit Card Number" variant="standard"></TextField>
+                                    <TextField fullWidth="true" name="userCardCVV" id="standard-number" label="CVV" variant="standard"></TextField>   
                                     <FormControlLabel fullWidth="true"  control={<Switch onChange={(event, val) => {
                                         if (val) {
                                             setValue("professional")
