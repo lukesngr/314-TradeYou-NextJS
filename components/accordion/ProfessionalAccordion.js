@@ -41,7 +41,7 @@ function ProfessionalAccordion(props) {
     
     async function completeRequest() {
         try {
-            await axios.post("/api/modifyRequest", {serviceRequestID: props.id, status: "complete"});
+            await axios.post("/api/completeJob", {serviceRequestID: props.id, status: "complete"});
             setPaccepted(false);
             setCaccepted(true);
         }catch (error) {

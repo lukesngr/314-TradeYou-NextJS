@@ -6,23 +6,27 @@ export default async(req, res) => {
     let data = req.body;
     try
         {
-            const result = await prisma.professionalsThatAcceptRequest.create({
-                data: {
-                    userName: data.userName,
-                    serviceRequest: { connect: {id: data.serviceRequestID}}
-                }
-            })
-
-            const resultTwo = await prisma.serviceRequest.update({
+            const result = await prisma.serviceRequest.update({
                 where: {
                     id: data.serviceRequestID
                 },
                 data: {
-                    status: "paccept"
+                    status: data.status
                 }
             });
 
-            res.status(200).json(result+resultTwo);
+            result += await prisma.payment.create({
+                data: {
+                    amount: 100.0,
+                    ServiceRequest: {
+                        connect: {id: data.serviceRequestID}
+                    }
+                }
+            })
+
+
+
+            res.status(200).json(result);
         }
         catch (err)
         {   

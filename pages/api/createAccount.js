@@ -15,13 +15,26 @@ export default async(req, res) => {
                 result = await prisma.tradeYouUser.create({
                     data: {
                         ...data,
+                        MembershipPlan: {
+                            create: {
+                                category: "membership",
+                                dateStarted: new Date(),
+                            }
+                        }
                     },
+                    
                 });
             }else {
                 delete data.professional;
                 result = await prisma.tradeYouProfessional.create({
                     data: {
                         ...data,
+                        MembershipPlan: {
+                            create: {
+                                category: "membership",
+                                dateStarted: new Date(), 
+                            }
+                        }
                     },
                 });
             }
