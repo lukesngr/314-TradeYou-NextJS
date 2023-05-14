@@ -1,19 +1,16 @@
 import { useSession } from 'next-auth/react'
-import SignedInProfessionalNavbar from '../components/navbar/SignedInProfessionalNavbar';
 import NonSignedInNavbar from '../components/navbar/NonSignedInNavbar';
-import {Box, Card, Link, Typography} from "@mui/material"
-import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
+import {Box, Card, Link, Typography} from "@mui/material";
+import Router from 'next/router';
 
 
 const HomePage = () => {
     const {data: session, status } = useSession()
     if(status == "authenticated") {
         if(session.user.userCategory == "professional") {
-            return (
-                <SignedInProfessionalNavbar></SignedInProfessionalNavbar>)
+            Router.push('/availableProf');
         }else if(session.user.userCategory == "user") {
-            return (
-                <SignedInUserNavbar></SignedInUserNavbar>)
+            Router.push('/submitRequest');
         }
     }else if(status == "loading") {
         return <Typography variant="h3">Loading...</Typography>

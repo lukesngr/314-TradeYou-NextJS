@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { URLPattern } from "next/server";
 import axios from "axios";
 
 const prisma = new PrismaClient();
@@ -15,6 +14,31 @@ async function getDistanceBetweenTwoAddresses(addressOne, addressTwo) {
     return data.data.rows[0].elements[0].distance.value / 1000;
 }
 
+async function ifCurrentDateBeenAYearSinceMembershipAddCharge(professionalID) {
+    try {
+        const membershipStartDate = await prisma.tradeYouProfessional.findUnique({
+            where: {id: professionalID},
+            select: {
+                MembershipPlan: {
+                    select: {dateStarted: true}
+                }
+            }
+        })
+
+        if(new Date().getFullYear()-1 == membershipStartDate.dateStarted.getFullYear()) {
+            await prisma.charges.create({
+                data: {
+                    amount: 3000.0,
+                    dateTime: new Date(),
+                    TradeYouProfessional: {connect: {id: professionalID}}
+                }
+            })
+        }
+    } catch(error) {
+        console.log(error);
+    }
+}
+
 export default async(req, res) => {
     let data = req.query;
     try{
@@ -22,6 +46,8 @@ export default async(req, res) => {
             where: { username: data.username},
             select: { id: true, address: true }
         });
+
+        await ifCurrentDateBeenAYearSinceMembershipAddCharge(currentProfessionalID);
 
         const serviceRequests = await prisma.serviceRequest.findMany();
         const deniedRequestsForProfessional = await prisma.professionalsThatDenyRequest.findMany({

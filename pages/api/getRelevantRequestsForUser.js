@@ -2,6 +2,31 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+async function ifCurrentDateBeenAYearSinceMembershipAddCharge(userID) {
+    try {
+        const membershipStartDate = await prisma.tradeYouUser.findUnique({
+            where: {id: userID},
+            select: {
+                MembershipPlan: {
+                    select: {dateStarted: true}
+                }
+            }
+        })
+
+        if(new Date().getFullYear()-1 == membershipStartDate.dateStarted.getFullYear()) {
+            await prisma.charges.create({
+                data: {
+                    amount: 3000.0,
+                    dateTime: new Date(),
+                    TradeYouUser: {connect: {id: userID}}
+                }
+            })
+        }
+    } catch(error) {
+        console.log(error);
+    }
+}
+
 export default async(req, res) => {
     let data = req.query;
     try{
@@ -13,6 +38,8 @@ export default async(req, res) => {
                    id: true
                 }
             });
+
+            await ifCurrentDateBeenAYearSinceMembershipAddCharge(currentUserID.id);
 
             const serviceRequests = await prisma.tradeYouUser.findUnique({
                 where: {
