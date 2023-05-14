@@ -9,17 +9,18 @@ import Router from 'next/router';
 const AvailableJobs = () => {
     const {data: session, status } = useSession();
     const [serviceRequests, setServiceRequests] = useState([]);
-    requestsBeenGotten = false;
 
     useEffect(() => {
         
         const getRequests = async () => {
             let data = {};
+            console.log(data)
             try {
                 data = await axios.get('http://localhost:3000/api/getRelevantRequestsForProf', {params: {username: session.user.username}});
             }catch (error) {
                 console.log(error)
             }
+
 
             if(data.data[0] === null) {
                 data.data = undefined
@@ -41,11 +42,10 @@ const AvailableJobs = () => {
     
         }
 
-        if(requestsBeenGotten && status == "authenticated") {
+        if(status == "authenticated") {
             getRequests();
-            requestsBeenGotten = true;
         }
-    });
+    }, []);
 
     if(status == "authenticated") {
         if(session.user.userCategory == "professional") {

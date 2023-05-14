@@ -13,7 +13,7 @@ async function ifCurrentDateBeenAYearSinceMembershipAddCharge(userID) {
             }
         })
 
-        if(new Date().getFullYear()-1 == membershipStartDate.dateStarted.getFullYear()) {
+        if(new Date().getFullYear()-1 == membershipStartDate.MembershipPlan[0].dateStarted.getFullYear()) {
             await prisma.charges.create({
                 data: {
                     amount: 2000.0,
