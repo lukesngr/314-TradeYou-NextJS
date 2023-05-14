@@ -16,7 +16,7 @@ async function ifCurrentDateBeenAYearSinceMembershipAddCharge(userID) {
         if(new Date().getFullYear()-1 == membershipStartDate.dateStarted.getFullYear()) {
             await prisma.charges.create({
                 data: {
-                    amount: 3000.0,
+                    amount: 2000.0,
                     dateTime: new Date(),
                     TradeYouUser: {connect: {id: userID}}
                 }

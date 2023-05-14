@@ -25,7 +25,7 @@ async function ifCurrentDateBeenAYearSinceMembershipAddCharge(professionalID) {
             }
         })
 
-        if(new Date().getFullYear()-1 == membershipStartDate.dateStarted.getFullYear()) {
+        if(new Date().getFullYear()-1 == membershipStartDate.MembershipPlan[0].dateStarted.getFullYear()) {
             await prisma.charges.create({
                 data: {
                     amount: 3000.0,
@@ -47,7 +47,7 @@ export default async(req, res) => {
             select: { id: true, address: true }
         });
 
-        await ifCurrentDateBeenAYearSinceMembershipAddCharge(currentProfessionalID);
+        await ifCurrentDateBeenAYearSinceMembershipAddCharge(currentProfessionalID.id);
 
         const serviceRequests = await prisma.serviceRequest.findMany();
         const deniedRequestsForProfessional = await prisma.professionalsThatDenyRequest.findMany({

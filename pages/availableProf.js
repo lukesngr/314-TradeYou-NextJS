@@ -9,6 +9,7 @@ import Router from 'next/router';
 const AvailableJobs = () => {
     const {data: session, status } = useSession();
     const [serviceRequests, setServiceRequests] = useState([]);
+    requestsBeenGotten = false;
 
     useEffect(() => {
         
@@ -40,8 +41,9 @@ const AvailableJobs = () => {
     
         }
 
-        if(serviceRequests.length == 0 && status == "authenticated") {
+        if(requestsBeenGotten && status == "authenticated") {
             getRequests();
+            requestsBeenGotten = true;
         }
     });
 
