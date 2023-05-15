@@ -47,13 +47,13 @@ export default function SignUp() {
                             <form ref={formReference}>
                                 <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
                                     <Typography variant="h4">Create account</Typography>
-                                    <TextField fullWidth="true" name="userName" id="standard-basic" label="Username" variant="standard" />
-                                    <TextField fullWidth="true" name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" />
-                                    <TextField fullWidth="true" name="userEmail" id="standard-basic" label="Email" variant="standard" />
-                                    <TextField fullWidth="true" name="userPhone" id="standard-number" label="Phone Number" variant="standard"></TextField>
-                                    <TextField fullWidth="true" name="userAddress" id="standard-basic" label="Address" variant="standard"></TextField>
-                                    <TextField fullWidth="true" name="userCardNumber" id="standard-number" label="Credit Card Number" variant="standard"></TextField>
-                                    <TextField fullWidth="true" name="userCardCVV" id="standard-number" label="CVV" variant="standard"></TextField>   
+                                    <TextField fullWidth={true} name="userName" id="standard-basic" label="Username" variant="standard" />
+                                    <TextField fullWidth={true} name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" />
+                                    <TextField fullWidth={true} name="userEmail" id="standard-basic" label="Email" variant="standard" />
+                                    <TextField fullWidth={true} name="userPhone" id="standard-number" label="Phone Number" variant="standard"></TextField>
+                                    <TextField fullWidth={true} name="userAddress" id="standard-basic" label="Address" variant="standard"></TextField>
+                                    <TextField fullWidth={true} name="userCardNumber" id="standard-number" label="Credit Card Number" variant="standard"></TextField>
+                                    <TextField fullWidth={true} name="userCardCVV" id="standard-number" label="CVV" variant="standard"></TextField>   
                                     <FormControlLabel fullWidth="true"  control={<Switch onChange={(event, val) => {
                                         if (val) {
                                             setValue("professional")

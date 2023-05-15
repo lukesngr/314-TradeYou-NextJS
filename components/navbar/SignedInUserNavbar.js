@@ -5,17 +5,23 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { signOut } from "next-auth/react";
 
+
 function SignedInUserNavbar() {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
     const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+      setAnchorEl(event.currentTarget);
     };
 
     const handleMenuClose = () => {
-        setAnchorEl(null);
+      setAnchorEl(null);
     };
+
+    const goSettings = () => {
+      Router.push('/settings');
+    };
+
     return (<AppBar color="primary" positon="static">
                 <Toolbar sx={{pl:0 }}>
                     <Grid container alignItems="right" spacing={1}>
@@ -42,8 +48,8 @@ function SignedInUserNavbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
-      <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
+      <MenuItem onClick={goSettings}>Settings</MenuItem>
+      <MenuItem onClick={signOut}>Sign out</MenuItem>
     </Menu>
             </AppBar>
             )

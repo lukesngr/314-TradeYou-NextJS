@@ -57,8 +57,8 @@ const submitRequest = () => {
                                             <Typography variant="h4">Submit a request</Typography>
                                             <TextField fullWidth={true} name="requestName" id="standard-basic" label="Name" variant="standard" />
                                             <TextField fullWidth={true} name="requestDescription" id="standard-password-input" label="Description" variant="standard" />
-                                                <TextField fullWidth={true} name="requestPrice" id="standard-number" label="Desired Price ($)"  variant="standard" />
-                                            <Box>
+                                            <TextField fullWidth={true} name="requestPrice" id="standard-number" label="Desired Price ($)"  variant="standard" />
+                                            <Box sx={{mt: 2}}>
                                                 <FormControl fullWidth>
                                                 <InputLabel id="service-category-label">Service Category</InputLabel>
                                                 <Select

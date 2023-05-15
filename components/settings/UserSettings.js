@@ -1,4 +1,4 @@
-function ProfessionalSettings() {
+function UserSettings() {
     return (
     <>
         <FormControl>
@@ -13,4 +13,4 @@ function ProfessionalSettings() {
     )
 }
 
-export default ProfessionalSettings;
+export default UserSettings;
