@@ -1,10 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import {mydb} from '../mymodules/prismaClientInstance'
 
-const prisma = new PrismaClient();
-
-async function ifCurrentDateBeenAYearSinceMembershipAddCharge(userID) {
+async function addMembershipChargeAfterYear(userID) {
     try {
-        const membershipStartDate = await prisma.tradeYouUser.findUnique({
+        const membershipObject = await mydb.tradeYouUser.findUnique({
             where: {id: userID},
             select: {
                 MembershipPlan: {
@@ -13,10 +11,14 @@ async function ifCurrentDateBeenAYearSinceMembershipAddCharge(userID) {
             }
         })
 
-        if(new Date().getFullYear()-1 == membershipStartDate.MembershipPlan[0].dateStarted.getFullYear()) {
-            await prisma.charges.create({
+        let membershipStartDateYear = membershipStartDate.MembershipPlan[0].dateStarted.getFullYear();
+        let lastYear = new Date().getFullYear()-1;
+        let userMembershipPricePerYear = 2000.0;
+
+        if(lastYear == membershipStartDateYear) {
+            await mydb.charges.create({
                 data: {
-                    amount: 2000.0,
+                    amount: userMembershipPricePerYear,
                     dateTime: new Date(),
                     TradeYouUser: {connect: {id: userID}}
                 }
@@ -30,52 +32,37 @@ async function ifCurrentDateBeenAYearSinceMembershipAddCharge(userID) {
 export default async(req, res) => {
     let data = req.query;
     try{
-            const currentUserID = await prisma.tradeYouUser.findUnique({
+            const currentUser = await mydb.tradeYouUser.findUnique({
                 where: {
                   username: data.username
                 },
                 select: {
-                   id: true
+                   id: true,
+                   ServiceRequest: true
                 }
             });
 
-            await ifCurrentDateBeenAYearSinceMembershipAddCharge(currentUserID.id);
+            await addMembershipChargeAfterYear(currentUser.id);
 
-            const serviceRequests = await prisma.tradeYouUser.findUnique({
-                where: {
-                    id: currentUserID.id
-                },
-                select: {
-                    ServiceRequest: true
-                }
-            })
+            let serviceRequests = currentUser.ServiceRequest
             
-            let serviceReqs = serviceRequests.ServiceRequest;
-            for(var i = 0; i < serviceReqs.length; i++) {
-                if(serviceReqs[i].status == "paccept") {
-                    const usernamesOfAcceptors = await prisma.serviceRequest.findUnique({
-                        where: {
-                          id: serviceReqs[i].id
-                        },
-                        select: {
-                            ProfessionalsThatAcceptRequest: {
-                                select: {userName: true}
-                            }
-                        }
-                    });
-                    serviceReqs[i].acceptors = usernamesOfAcceptors.ProfessionalsThatAcceptRequest; 
-                }
+            for(var i = 0; i < serviceRequests.length; i++) {
 
-                const reviewsOfRequests = await prisma.serviceRequest.findUnique({
+                const currentServiceRequestInDb = await mydb.serviceRequest.findUnique({
                     where: {
-                      id: serviceReqs[i].id
+                      id: serviceRequests[i].id
                     },
                     select: {
-                        Review: true 
+                        Review: true,
+                        ProfessionalsThatAcceptRequest: {
+                            select: {userName: true}
+                        } 
                     }
                 });
+                
+                serviceReqs[i].review = currentServiceRequestInDb.Review;
 
-                serviceReqs[i].review = reviewsOfRequests.Review;
+                if(serviceRequests[i].status == "paccept") { serviceRequests[i].acceptors = currentServiceRequestInDb.ProfessionalsThatAcceptRequest; }     
                 
             }
 

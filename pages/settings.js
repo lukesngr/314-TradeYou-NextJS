@@ -3,7 +3,8 @@ import ProfessionalSettings from '../components/settings/ProfessionalSettings';
 import UserSettings from '../components/settings/UserSettings';
 import Router from 'next/router';
 import { Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from "axios";
 
 export default function Settings() {
     const {data: session, status } = useSession();
@@ -19,32 +20,28 @@ export default function Settings() {
             }catch (error) {
                 console.log(error)
             }
-    
-    
-            if(data.data[0] === null) {
-                data.data = undefined
-            }
         
             if(data.data != undefined) {
                 data = data.data;
             }else{
-                data = []
+                data = {}
             }
     
-            setServiceRequests(data);
+            setDetails(data);
+            console.log(data);
     
         }
     
         if(status == "authenticated") {
-            setDetails(data);
+            getDetails();
         }
     }, []);
 
     if(status == "authenticated") {
         if(session.user.userCategory == "user") {
-            return <UserSettings details={details}></UserSettings>
+            return <UserSettings {...details}></UserSettings>
         }else{
-            return <ProfessionalSettings details={details}></ProfessionalSettings>
+            return <ProfessionalSettings {...details}></ProfessionalSettings>
         }
     }else if(status == "loading") {
         return <Typography variant="h3">Loading...</Typography>

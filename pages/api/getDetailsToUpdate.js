@@ -9,11 +9,33 @@ export default async(req, res) => {
         let details = {};
         if(data.userCategory == "professional") {
             details = await prisma.tradeYouProfessional.findUnique({
-                where: { username: data.username}
+                where: { username: data.username},
+                select: {
+                    username: true,
+                    creditCardCVV: true,
+                    creditCardNumber: true,
+                    address: true,
+                    email: true,
+                    phone: true,
+                    MembershipPlan: {
+                        select: {category: true}
+                    }
+                }
             });
         }else if(data.userCategory == "user") {
             details = await prisma.tradeYouUser.findUnique({
-                where: { username: data.username}
+                where: { username: data.username},
+                select: {
+                    username: true,
+                    creditCardCVV: true,
+                    creditCardNumber: true,
+                    address: true,
+                    email: true,
+                    phone: true,
+                    MembershipPlan: {
+                        select: {category: true}
+                    }
+                }
             });
         }
 

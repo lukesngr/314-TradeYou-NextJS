@@ -14,7 +14,6 @@ const AvailableJobs = () => {
         
         const getRequests = async () => {
             let data = {};
-            console.log(data)
             try {
                 data = await axios.get('http://localhost:3000/api/getRelevantRequestsForProf', {params: {username: session.user.username}});
             }catch (error) {
