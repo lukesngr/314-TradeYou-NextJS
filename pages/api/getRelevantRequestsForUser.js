@@ -1,4 +1,4 @@
-import {mydb} from '../mymodules/prismaClientInstance'
+import {mydb} from '../../mymodules/prismaClientInstance'
 
 async function addMembershipChargeAfterYear(userID) {
     try {
@@ -11,7 +11,7 @@ async function addMembershipChargeAfterYear(userID) {
             }
         })
 
-        let membershipStartDateYear = membershipStartDate.MembershipPlan[0].dateStarted.getFullYear();
+        let membershipStartDateYear = membershipObject.MembershipPlan[0].dateStarted.getFullYear();
         let lastYear = new Date().getFullYear()-1;
         let userMembershipPricePerYear = 2000.0;
 
@@ -31,49 +31,47 @@ async function addMembershipChargeAfterYear(userID) {
 
 export default async(req, res) => {
     let data = req.query;
-    try{
-            const currentUser = await mydb.tradeYouUser.findUnique({
+    try {
+        const currentUser = await mydb.tradeYouUser.findUnique({
+            where: {
+                username: data.username
+            },
+            select: {
+                id: true,
+                ServiceRequest: true
+            }
+        });
+
+        await addMembershipChargeAfterYear(currentUser.id);
+
+        let serviceRequests = currentUser.ServiceRequest
+        
+        for(var i = 0; i < serviceRequests.length; i++) {
+
+            const currentServiceRequestInDb = await mydb.serviceRequest.findUnique({
                 where: {
-                  username: data.username
+                    id: serviceRequests[i].id
                 },
                 select: {
-                   id: true,
-                   ServiceRequest: true
+                    Review: true,
+                    ProfessionalsThatAcceptRequest: {
+                        select: {userName: true}
+                    } 
                 }
             });
-
-            await addMembershipChargeAfterYear(currentUser.id);
-
-            let serviceRequests = currentUser.ServiceRequest
             
-            for(var i = 0; i < serviceRequests.length; i++) {
+            serviceReqs[i].review = currentServiceRequestInDb.Review;
 
-                const currentServiceRequestInDb = await mydb.serviceRequest.findUnique({
-                    where: {
-                      id: serviceRequests[i].id
-                    },
-                    select: {
-                        Review: true,
-                        ProfessionalsThatAcceptRequest: {
-                            select: {userName: true}
-                        } 
-                    }
-                });
-                
-                serviceReqs[i].review = currentServiceRequestInDb.Review;
-
-                if(serviceRequests[i].status == "paccept") { serviceRequests[i].acceptors = currentServiceRequestInDb.ProfessionalsThatAcceptRequest; }     
-                
-            }
-
+            if(serviceRequests[i].status == "paccept") { serviceRequests[i].acceptors = currentServiceRequestInDb.ProfessionalsThatAcceptRequest; }     
             
+        }
 
-            res.status(200).json(serviceReqs);
-        }
-        catch (err)
-        {   
-            res.status(503).json({err: err.toString()});
-        }
+        
+
+        res.status(200).json(serviceReqs);
+    }catch (error){   
+        res.status(503).json({error: error.toString()});
+    }
     
     
 }

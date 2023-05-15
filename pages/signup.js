@@ -16,11 +16,11 @@ export default function SignUp() {
         const email = userEmail.value;
         const phone = userPhone.value;
         const address  = userAddress.value;
-        const professional = isProfessional.value;
+        const category = isProfessional.value;
         const creditCardNumber = userCardNumber.value;
         const creditCardCVV = userCardCVV.value;
         try {
-            const req = await axios.post("/api/createAccount", {username, password, email, phone, address, creditCardNumber, creditCardCVV, professional});
+            const req = await axios.post("/api/createAccount", {username, password, email, phone, address, creditCardNumber, creditCardCVV, category});
             if (req.status == 200) {
                 toast.success('Created account');
             }else{

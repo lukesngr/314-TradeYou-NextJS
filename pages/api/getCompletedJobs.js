@@ -1,11 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import {mydb} from '../../mymodules/prismaClientInstance';
 
 export default async(req, res) => {
     let data = req.query;
     try{
-        let serviceRequests = await prisma.tradeYouProfessional.findUnique({
+        let serviceRequests = await mydb.tradeYouProfessional.findUnique({
             where: { username: data.username},
             select: { ServiceRequest: true }
         });
@@ -17,7 +15,7 @@ export default async(req, res) => {
                 delete serviceRequests[i];
             }
 
-            const reviewsOfRequests = await prisma.serviceRequest.findUnique({
+            const reviewsOfRequests = await mydb.serviceRequest.findUnique({
                 where: {
                   id: serviceRequests[i].id
                 },
@@ -30,7 +28,7 @@ export default async(req, res) => {
        }
 
        res.status(200).json(serviceRequests);
-    }catch (err){   
-       res.status(503).json({err: err.toString()});
+    }catch (error){   
+       res.status(503).json({error: error.toString()});
     }
 }

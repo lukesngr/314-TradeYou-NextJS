@@ -1,14 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-import axios from "axios";
-
-const prisma = new PrismaClient();
+import {mydb} from '../../mymodules/prismaClientInstance';
 
 export default async(req, res) => {
     let data = req.query;
     try{
         let details = {};
         if(data.userCategory == "professional") {
-            details = await prisma.tradeYouProfessional.findUnique({
+            details = await mydb.tradeYouProfessional.findUnique({
                 where: { username: data.username},
                 select: {
                     username: true,
@@ -23,7 +20,7 @@ export default async(req, res) => {
                 }
             });
         }else if(data.userCategory == "user") {
-            details = await prisma.tradeYouUser.findUnique({
+            details = await mydb.tradeYouUser.findUnique({
                 where: { username: data.username},
                 select: {
                     username: true,

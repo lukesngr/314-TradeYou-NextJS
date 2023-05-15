@@ -13,14 +13,14 @@ const availableJobs = () => {
     useEffect(() => {
         
         const getRequests = async () => {
-            let data = {data:{}};
+            let data = [];
             try {
                 data = await axios.get('http://localhost:3000/api/getRelevantRequestsForUser', {params: {username: session.user.username}});
             }catch (error) {
                 console.log(error)
             }
         
-            if(data != undefined) {
+            if(data != []) {
                 data = data.data;
             }
 
@@ -28,10 +28,10 @@ const availableJobs = () => {
     
         }
 
-        if(serviceRequests.length == 0 && status == "authenticated") {
+        if(status == "authenticated") {
             getRequests();
         }
-    });
+    }, []);
 
     if(status == "authenticated") {
         if(session.user.userCategory == "user") {

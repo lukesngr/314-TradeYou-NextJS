@@ -1,15 +1,13 @@
-import { PrismaClient } from "@prisma/client";
+import {mydb} from '../../mymodules/prismaClientInstance';
 import axios from "axios";
 
-const prisma = new PrismaClient();
-
-//Using DistanceMatrixApi with my own API key
 async function getDistanceBetweenTwoAddresses(userID, professionalObject) {
-    let result = {}
-    try {
-        const addressForProfessional = professionalObject.address;
+    let result = 10000;
 
-        const distanceHasBeenMemoed = await prisma.distanceMemoization.findMany({
+    try {
+        const professionalAddress = professionalObject.address;
+
+        const distanceHasBeenMemoed = await mydb.distanceMemoization.findMany({
             where: {
                 professionalID: professionalObject.id,
                 tradeYouUserId: userID
@@ -22,23 +20,23 @@ async function getDistanceBetweenTwoAddresses(userID, professionalObject) {
         console.log(distanceHasBeenMemoed)
 
         if(distanceHasBeenMemoed === undefined) {
-            const addressForUser = await prisma.tradeYouUser.findUnique({
+            const userAddress = await mydb.tradeYouUser.findUnique({
                 where: {id: userID},
                 select: {address: true}
             })
-            let longAndLatitudeForAddressOne = await axios.get('https://geocode.maps.co/search?', {params: {q: encodeURIComponent(addressForUser)}});
-            let longAndLatitudeForAddressTwo = await axios.get('https://geocode.maps.co/search?', {params: {q: encodeURIComponent(addressForProfessional)}});
-            console.log(userID)
+
+            let longAndLatitudeForAddressOne = await axios.get('https://geocode.maps.co/search?', {params: {q: encodeURIComponent(userAddress)}});
+            let longAndLatitudeForAddressTwo = await axios.get('https://geocode.maps.co/search?', {params: {q: encodeURIComponent(professionalAddress)}});
             let longitudeMinusLatitudeGivenToCos = Math.cos(longAndLatitudeForAddressTwo[0].long - longAndLatitudeForAddressOne[0].long);
             let latitudeOne = longAndLatitudeForAddressOne.lat;
             let latitudeTwo = longAndLatitudeForAddressTwo.lat
             //have no idea how this math works
             //splitting statement for readability purposes 
             let oneHalfOfDistanceCalc = Math.sin(latitudeOne)*Math.sin(latitudeTwo);
-            let twoHalfOfDistanceCalc = Math.cos(lat1)*Math.cos(lat2)*longitudeMinusLatitudeGivenToCos;
+            let twoHalfOfDistanceCalc = Math.cos(latitudeOne)*Math.cos(latitudeTwo)*longitudeMinusLatitudeGivenToCos;
             let distanceBetweenPoints = parseInt(Math.acos(oneHalfOfDistanceCalc+twoHalfOfDistanceCalc)*6371);
 
-            await prisma.distanceMemoization.create({
+            await mydb.distanceMemoization.create({
                 data: {
                     distance: distanceBetweenPoints,
                     TradeYouProfessional: {connect: {id: professionalObject.id, }},
@@ -46,21 +44,22 @@ async function getDistanceBetweenTwoAddresses(userID, professionalObject) {
                 }
             })
 
-            return distanceBetweenPoints;
+            result =  distanceBetweenPoints;
         }else{
-            return distanceHasBeenMemoed.distance;
+            result = distanceHasBeenMemoed.distance;
         }
             
         
     }catch (error) {
         console.log(error)
     }
-    return 10000;
+
+    return result;
 }
 
 async function ifCurrentDateBeenAYearSinceMembershipAddCharge(professionalID) {
     try {
-        const membershipStartDate = await prisma.tradeYouProfessional.findUnique({
+        const membershipStartDate = await mydb.tradeYouProfessional.findUnique({
             where: {id: professionalID},
             select: {
                 MembershipPlan: {
@@ -70,7 +69,7 @@ async function ifCurrentDateBeenAYearSinceMembershipAddCharge(professionalID) {
         })
 
         if(new Date().getFullYear()-1 == membershipStartDate.MembershipPlan[0].dateStarted.getFullYear()) {
-            await prisma.charges.create({
+            await mydb.charges.create({
                 data: {
                     amount: 3000.0,
                     dateTime: new Date(),
@@ -86,16 +85,16 @@ async function ifCurrentDateBeenAYearSinceMembershipAddCharge(professionalID) {
 export default async(req, res) => {
     let data = req.query;
     try{
-        const currentProfessionalID = await prisma.tradeYouProfessional.findUnique({
+        const currentProfessionalID = await mydb.tradeYouProfessional.findUnique({
             where: { username: data.username},
             select: { id: true, address: true }
         });
 
         await ifCurrentDateBeenAYearSinceMembershipAddCharge(currentProfessionalID.id);
 
-        const serviceRequests = await prisma.serviceRequest.findMany();
+        const serviceRequests = await mydb.serviceRequest.findMany();
 
-        const deniedRequestsForProfessional = await prisma.professionalsThatDenyRequest.findMany({
+        const deniedRequestsForProfessional = await mydb.professionalsThatDenyRequest.findMany({
             where: {userName: data.username},
             select: {serviceRequestID: true}
         })
