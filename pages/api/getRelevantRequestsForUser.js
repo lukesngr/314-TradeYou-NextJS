@@ -60,15 +60,13 @@ export default async(req, res) => {
                 }
             });
             
-            serviceReqs[i].review = currentServiceRequestInDb.Review;
+            serviceRequests[i].review = currentServiceRequestInDb.Review;
 
             if(serviceRequests[i].status == "paccept") { serviceRequests[i].acceptors = currentServiceRequestInDb.ProfessionalsThatAcceptRequest; }     
             
         }
 
-        
-
-        res.status(200).json(serviceReqs);
+        res.status(200).json(serviceRequests);
     }catch (error){   
         res.status(503).json({error: error.toString()});
     }

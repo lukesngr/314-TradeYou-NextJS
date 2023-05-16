@@ -2,54 +2,48 @@ import { useSession } from 'next-auth/react';
 import SignedInUserNavbar from '../components/navbar/SignedInUserNavbar';
 import { Box, Card, Stack, Typography} from '@mui/material';
 import axios from "axios";
-import { useState, useEffect } from 'react';
 import UserAccordion from '../components/accordion/UserAccordion';
 import Router from 'next/router';
+import { useQuery } from '@tanstack/react-query';
 
-const availableJobs = () => {
-    const {data: session, status } = useSession();
-    const [serviceRequests, setServiceRequests] = useState([]);
-
-    useEffect(() => {
-        
-        const getRequests = async () => {
-            let data = [];
-            try {
-                data = await axios.get('http://localhost:3000/api/getRelevantRequestsForUser', {params: {username: session.user.username}});
-            }catch (error) {
-                console.log(error)
-            }
-        
-            if(data != []) {
-                data = data.data;
-            }
-
-            setServiceRequests(data);
+function MyRequests(props) {
     
+    let serviceRequests = [];
+    const { status: getStatus, error, data: serviceRequestData} = useQuery({
+        queryKey: ['userRequests'],
+        queryFn: () => {
+            return axios.get('http://localhost:3000/api/getRelevantRequestsForUser', {params: {username: props.username}}).then(res => res.data).catch(error => console.log(error));
         }
+    })
+    if(getStatus === "success") {
+        serviceRequests = serviceRequestData;
+    }else if(getStatus === "error") {
+        console.log(error);
+    }
 
-        if(status == "authenticated") {
-            getRequests();
-        }
-    }, []);
+    return (
+        <>
+            <SignedInUserNavbar></SignedInUserNavbar>
+            <Box sx={{display: 'flex', justifyContent: 'center'}} >
+                <Card sx={{p: 5, my: 10}}>
+                    <Typography variant="h5">My Requests</Typography>
+                    <Stack direction="column">
+                    {serviceRequests.map(serviceRequest => (
+                            <UserAccordion {...serviceRequest}></UserAccordion>
+                        ))}
+                    </Stack>
+                </Card>
+            </Box>
+        </>
+    )
+}
+
+export default function availableJobs() {
+    const {data: session, status } = useSession();
 
     if(status == "authenticated") {
         if(session.user.userCategory == "user") {
-            return (
-                <>
-                    <SignedInUserNavbar></SignedInUserNavbar>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}} >
-                        <Card sx={{p: 5, my: 10}}>
-                            <Typography variant="h5">My Requests</Typography>
-                            <Stack direction="column">
-                                {serviceRequests.map(serviceRequest => (
-                                    <UserAccordion {...serviceRequest}></UserAccordion>
-                                ))}
-                            </Stack>
-                        </Card>
-                    </Box>
-                </>
-            )
+            return <MyRequests username={session.user.username}></MyRequests>
         }
     }else if(status == "loading") {
         return <Typography variant="h3">Loading...</Typography>
@@ -57,5 +51,3 @@ const availableJobs = () => {
         Router.push('/');
     }
 }
-
-export default availableJobs

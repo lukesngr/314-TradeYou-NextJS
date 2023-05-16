@@ -1,38 +1,33 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import {mydb} from '../../mymodules/prismaClientInstance'
 
 export default async(req, res) => {
     let data = req.body;
-    try
-        {
-            const selectedProfID = await prisma.tradeYouProfessional.findUnique({
-                where: {
-                    username: data.username
-                },
-                select: {
-                    id: true
-                }
-            })
+    try {
+        const selectedProfID = await mydb.tradeYouProfessional.findUnique({
+            where: {
+                username: data.username
+            },
+            select: {
+                id: true
+            }
+        })
 
-            const result = await prisma.serviceRequest.update({
-                where: {
-                    id: data.serviceRequestID
+        const result = await mydb.serviceRequest.update({
+            where: {
+                id: data.serviceRequestID
+            },
+            data: {
+                professional: {
+                    connect: {id: selectedProfID.id}
                 },
-                data: {
-                    professional: {
-                        connect: {id: selectedProfID.id}
-                    },
-                    status: "caccept"
-                }
-            });
+                status: "caccept"
+            }
+        });
 
-            res.status(200).json(result);
-        }
-        catch (err)
-        {   
-            res.status(503).json({err: err.toString()});
-        }
+        res.status(200).json(result);
+    }catch (error){   
+        res.status(503).json({error: error.toString()});
+    }
     
     
 }
