@@ -2,7 +2,6 @@ import { useSession } from 'next-auth/react';
 import SignedInProfessionalNavbar from '../components/navbar/SignedInProfessionalNavbar';
 import { Box, Card, Stack, Typography} from '@mui/material';
 import axios from "axios";
-import { useState, useEffect } from 'react';
 import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
 import Router from 'next/router';
 import { useQuery } from '@tanstack/react-query';
@@ -10,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 function AvailableJobs(props) {
     let serviceRequests = [];
     const { status: getStatus, error, data: serviceRequestData} = useQuery({
-        queryKey: ['profRequests'],
+        queryKey: ['availableJobs'],
         queryFn: () => {
             return axios.get('http://localhost:3000/api/getAvailableJobs', {params: {username: props.username}}).then(res => res.data).catch(error => console.log(error));
         }
