@@ -5,64 +5,45 @@ import axios from "axios";
 import { useState, useEffect } from 'react';
 import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
 import Router from 'next/router';
+import { useQuery } from '@tanstack/react-query';
 
-const AvailableJobs = () => {
+function AvailableJobs(props) {
+    let serviceRequests = [];
+    const { status: getStatus, error, data: serviceRequestData} = useQuery({
+        queryKey: ['profRequests'],
+        queryFn: () => {
+            return axios.get('http://localhost:3000/api/getAvailableJobs', {params: {username: props.username}}).then(res => res.data).catch(error => console.log(error));
+        }
+    })
+    if(getStatus === "success") {
+        serviceRequests = serviceRequestData;
+    }else if(getStatus === "error") {
+        console.log(error);
+    }
+
+    return (
+        <>
+            <SignedInProfessionalNavbar></SignedInProfessionalNavbar>
+            <Box sx={{display: 'flex', justifyContent: 'center'}} >
+                <Card sx={{p: 5, my: 10}}>
+                    <Typography variant="h5">Available Jobs</Typography>
+                    <Stack direction="column">
+                        {serviceRequests?.map(serviceRequest => (
+                            <ProfessionalAccordion {...serviceRequest} userName={props.username}></ProfessionalAccordion>
+                        ))}
+                    </Stack>
+                </Card>
+           </Box>
+        </>
+    )
+}
+
+export default function availableJobs() {
     const {data: session, status } = useSession();
-    const [serviceRequests, setServiceRequests] = useState([]);
-
-    useEffect(() => {
-        
-        const getRequests = async () => {
-            let data = {};
-            try {
-                data = await axios.get('http://localhost:3000/api/getRelevantRequestsForProf', {params: {username: session.user.username}});
-            }catch (error) {
-                console.log(error)
-            }
-
-
-            if(data.data[0] === null) {
-                data.data = undefined
-            }
-        
-            if(data.data != undefined) {
-                data = data.data;
-                
-                for (var i = 0; i < data.length; i++) {
-                    if(data[i].status == "complete") {
-                        delete data[i];
-                    }
-                }
-            }else{
-                data = []
-            }
-
-            setServiceRequests(data);
-    
-        }
-
-        if(status == "authenticated") {
-            getRequests();
-        }
-    }, []);
 
     if(status == "authenticated") {
         if(session.user.userCategory == "professional") {
-            return (
-                <>
-                    <SignedInProfessionalNavbar></SignedInProfessionalNavbar>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}} >
-                        <Card sx={{p: 5, my: 10}}>
-                            <Typography variant="h5">Available Jobs</Typography>
-                            <Stack direction="column">
-                                {serviceRequests?.map(serviceRequest => (
-                                    <ProfessionalAccordion {...serviceRequest} userName={session.user.username}></ProfessionalAccordion>
-                                ))}
-                            </Stack>
-                        </Card>
-                    </Box>
-                </>
-            )
+            return <AvailableJobs username={session.user.username}></AvailableJobs>
         }
     }else if(status == "loading") {
         return <Typography variant="h3">Loading...</Typography>
@@ -70,5 +51,3 @@ const AvailableJobs = () => {
         Router.push('/');
     }
 }
-
-export default AvailableJobs

@@ -38,7 +38,7 @@ function MyRequests(props) {
     )
 }
 
-export default function availableJobs() {
+export default function myRequests() {
     const {data: session, status } = useSession();
 
     if(status == "authenticated") {
