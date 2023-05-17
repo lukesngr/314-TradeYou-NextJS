@@ -3,46 +3,37 @@ import ProfessionalSettings from '../components/settings/ProfessionalSettings';
 import UserSettings from '../components/settings/UserSettings';
 import Router from 'next/router';
 import { Typography } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import axios from "axios";
 
-export default function Settings() {
-    const {data: session, status } = useSession();
-    const [details, setDetails] = useState({});
+function Settings(props) {
+    let details = {};
+    const { status: getStatus, error, data: detailsData} = useQuery({
+        queryKey: ['details'],
+        queryFn: () => {
+            return axios.get('http://localhost:3000/api/getSettingsInfo', {params: {username: props.username, userCategory: props.userCategory}}).then(res => res.data).catch(error => console.log(error));
+        }
+    })
+    if(getStatus === "success") {
+        details = detailsData;
+    }else if(getStatus === "error") {
+        console.log(error);
+    }
 
-    useEffect(() => {
-        
-        const getDetails = async () => {
-            let data = {};
-            console.log(data)
-            try {
-                data = await axios.get('http://localhost:3000/api/getDetailsToUpdate', {params: {username: session.user.username, userCategory: session.user.userCategory}});
-            }catch (error) {
-                console.log(error)
-            }
-        
-            if(data.data != undefined) {
-                data = data.data;
-            }else{
-                data = {}
-            }
-    
-            setDetails(data);
-            console.log(data);
-    
-        }
-    
-        if(status == "authenticated") {
-            getDetails();
-        }
-    }, []);
+    console.log(details);
+
+    if(props.userCategory == "user") {
+        return <UserSettings {...details}></UserSettings>
+    }else{
+        return <ProfessionalSettings {...details}></ProfessionalSettings>
+    }
+}
+
+export default function settings() {
+    const {data: session, status } = useSession();
 
     if(status == "authenticated") {
-        if(session.user.userCategory == "user") {
-            return <UserSettings {...details}></UserSettings>
-        }else{
-            return <ProfessionalSettings {...details}></ProfessionalSettings>
-        }
+        return <Settings username={session.user.username} userCategory={session.user.userCategory}></Settings>
     }else if(status == "loading") {
         return <Typography variant="h3">Loading...</Typography>
     }else if(status == "unauthenticated") {

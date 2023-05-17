@@ -17,8 +17,6 @@ async function getDistanceBetweenTwoAddresses(userID, professionalObject) {
             }
         })
 
-        console.log(distanceHasBeenMemoed)
-
         if(distanceHasBeenMemoed === undefined) {
             const userAddress = await mydb.tradeYouUser.findUnique({
                 where: {id: userID},
@@ -102,17 +100,18 @@ export default async(req, res) => {
        for (var i = 0; i < serviceRequests.length; i++) {
             if(serviceRequests[i].status == "caccept") {
                 if(serviceRequests[i].professionalID != currentProfessionalID.id) {
-                    delete serviceRequests[i];
+                    serviceRequests.splice(i, 1);
+                    i -= 1;
                 }
             }else if(serviceRequests[i].status == "complete") {
-                delete serviceRequests[i];
-            }
-
-
-            if(deniedRequestsForProfessional.some(iter => iter.serviceRequestID == serviceRequests[i].id)) {
-                delete serviceRequests[i];
+                serviceRequests.splice(i, 1);
+                i -= 1;
+            }else if(deniedRequestsForProfessional.some(iter => iter.serviceRequestID == serviceRequests[i].id)) {
+                serviceRequests.splice(i, 1);
+                i -= 1;
             }else if(getDistanceBetweenTwoAddresses(serviceRequests[i].userID, currentProfessionalID) > 50) {
-                delete serviceRequests[i];
+                serviceRequests.splice(i, 1);
+                i -= 1;
             }
 
        }

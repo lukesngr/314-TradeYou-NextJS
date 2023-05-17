@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from "axios";
 import Rating from '@mui/material/Rating';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function UserAccordion(props) {
@@ -29,12 +30,13 @@ function UserAccordion(props) {
 
     async function grantJobto() {
         try {
-            let professionalUsername = props.acceptors[category].userName;
+            let professionalUsername = props.acceptors[profToGrantJobTo].userName;
             await axios.post("/api/grantJobTo", {serviceRequestID: props.id, username: professionalUsername});
             setUserAccepted(true);
             setProfessionalAccepted(false);
+            toast.success('Job granted');
         }catch (error) {
-            toast('Error:  '+error, { hideProgressBar: true, type: 'error' });
+            console.log(error)
         }
     }
 
@@ -43,7 +45,7 @@ function UserAccordion(props) {
             await axios.post("/api/submitReview", {value: rating, description: reviewDesc, serviceRequest: { connect: {id: props.id}}});
             setSubmittedReview(true);
         }catch (error) {
-            toast('Error:  '+error, { hideProgressBar: true, type: 'error' });
+            console.log(error);
         }
     }
 

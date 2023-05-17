@@ -12,7 +12,8 @@ export default async(req, res) => {
 
        for (var i = 0; i < serviceRequests.length; i++) {
             if(serviceRequests[i].status != "complete") {
-                delete serviceRequests[i];
+                serviceRequests.splice(i, 1);
+                i -= 1;
             }
 
             const reviewsOfRequests = await mydb.serviceRequest.findUnique({
