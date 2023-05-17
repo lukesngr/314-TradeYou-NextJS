@@ -66,6 +66,8 @@ export default async(req, res) => {
             
         }
 
+        console.log(serviceRequests)
+
         res.status(200).json(serviceRequests);
     }catch (error){   
         res.status(503).json({error: error.toString()});

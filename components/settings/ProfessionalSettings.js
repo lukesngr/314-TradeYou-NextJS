@@ -87,7 +87,7 @@ function ProfessionalSettings(props) {
         setRadioGroupValue(newValue);
     }
 
-
+    console.log(props)
 
     const [username, setUsername] = useState(props.username);
     const [password, setPassword] = useState("password");
@@ -120,7 +120,7 @@ function ProfessionalSettings(props) {
         <Box sx={{display: 'flex', justifyContent: 'center', width: '100%'}}>
             <Typography variant="h3" sx={{color: "black"}}>Settings</Typography>
         </Box>
-        <Box sx={{display: 'flex', justifyContent: 'space-evenly', width: '100%'}}>
+        <Box sx={{display: 'flex', justifyContent: 'center', width: '100%'}}>
             <Paper elevation={3} sx={{m: 5, p: 3 }}>
                 <Typography variant="h6">Payment Type</Typography>
                 <FormControl>

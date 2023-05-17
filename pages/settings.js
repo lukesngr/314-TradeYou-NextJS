@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from "axios";
 
 function Settings(props) {
-    let details = {};
+    let details = {Charges: [], ServiceRequest: [], Payments: []};
     const { status: getStatus, error, data: detailsData} = useQuery({
         queryKey: ['details'],
         queryFn: () => {

@@ -82,11 +82,13 @@ export default async(req, res) => {
             });
         }
 
-        if(details.ServiceRequest != undefined) {
+        if(details.ServiceRequest.length != 0) {
             for(var i = 0; i < details.ServiceRequest.length; i++) {
                 details.ServiceRequest[i].user = details.ServiceRequest[i].user.username;
                 details.Payments = details.ServiceRequest[i].Payment;
             }
+        }else{
+            details.Payments = []
         }
 
         console.log(details);
