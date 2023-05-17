@@ -25,12 +25,12 @@ export default async(req, res) => {
             });
         }else {
             delete data.category;
-            const userAlreadyExistsInOtherTable = mydb.$exists.tradeYouUser({
-                username: data.username
+            const userCount = await mydb.tradeYouUser.count({
+                where: {username: data.username}
             })
 
-            if(userAlreadyExistsInOtherTable) {
-                res.status(200).json({error: "User already exists"});
+            if(userCount != 0) {
+                res.status(503).json({error: "User already exists"});
             }else{
                 result = await mydb.tradeYouProfessional.create({
                     data: {
@@ -49,7 +49,7 @@ export default async(req, res) => {
 
         res.status(200).json(result);
     }catch (error){   
-        res.status(503).json({err: err.toString()});
+        res.status(503).json({error: error.toString()});
     }
     
 }
