@@ -28,7 +28,6 @@ function SignedInUserNavbar() {
                         <Grid item xs={1}><Image src="/images/tradeYouIcon.PNG" sx={{p: 2, zIndex: 'left'}} height={50} width={70} alt="Trade You" /></Grid>
                         <Grid item xs={2}><Link variant="h6" color="secondary" underline="none" href="/submitRequest">Submit a Service Request</Link></Grid>
                         <Grid item xs={7}><Link variant="h6" color="secondary" underline="none" href="/myRequests">My Service Requests</Link></Grid>
-                        <Grid item xs={1}><IconButton size="large"><NotificationsIcon /></IconButton></Grid>
                         <Grid item xs={1} aria-controls="account-menu" aria-haspopup="true" onClick={handleProfileMenuOpen}><IconButton><AccountCircle /></IconButton></Grid>
                     </Grid>
                 </Toolbar>

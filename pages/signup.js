@@ -22,7 +22,7 @@ export default function SignUp() {
         try {
             const req = await axios.post("/api/createAccount", {username, password, email, phone, address, creditCardNumber, creditCardCVV, category});
             if (req.status == 200) {
-                toast.success('Created account');
+                toast.success('Updated details');
             }else{
                 toast('Error occurred please contact lukesngr@gmail.com', { hideProgressBar: true, autoClose: 2000, type: 'error' });
             }

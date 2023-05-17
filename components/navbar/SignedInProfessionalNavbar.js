@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import { Grid, Link, AppBar, Toolbar, IconButton, Menu, MenuItem } from "@mui/material";
 import Image from 'next/image';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { signOut } from "next-auth/react";
 import Router from 'next/router';
 
@@ -28,7 +27,6 @@ function SignedInProfessionalNavbar() {
                         <Grid item xs={1}><Image src="/images/tradeYouIcon.PNG" sx={{p: 2, zIndex: 'left'}} height={50} width={70} alt="Trade You" /></Grid>
                         <Grid item xs={1}><Link variant="h6" color="secondary" underline="none" href="/availableProf">Available Jobs</Link></Grid>
                         <Grid item xs={8}><Link variant="h6" color="secondary" underline="none" href="/completedProf">Completed Jobs</Link></Grid>
-                        <Grid item xs={1}><IconButton size="large"><NotificationsIcon /></IconButton></Grid>
                         <Grid item xs={1} aria-controls="account-menu" aria-haspopup="true" onClick={handleProfileMenuOpen}><IconButton><AccountCircle /></IconButton></Grid>
                     </Grid>
                 </Toolbar>

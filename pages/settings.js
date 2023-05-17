@@ -16,17 +16,16 @@ function Settings(props) {
     })
     if(getStatus === "success") {
         details = detailsData;
+        if(props.userCategory == "user") {
+            return <UserSettings {...details}></UserSettings>
+        }else{
+            return <ProfessionalSettings {...details}></ProfessionalSettings>
+        }
     }else if(getStatus === "error") {
         console.log(error);
     }
 
-    console.log(details);
-
-    if(props.userCategory == "user") {
-        return <UserSettings {...details}></UserSettings>
-    }else{
-        return <ProfessionalSettings {...details}></ProfessionalSettings>
-    }
+    
 }
 
 export default function settings() {
