@@ -4,7 +4,6 @@ import { Box, Card, Stack, Typography} from '@mui/material';
 import axios from "axios";
 import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
 import Router from 'next/router';
-import 'react-toastify/dist/ReactToastify.css';
 import { useQuery } from '@tanstack/react-query';
 
 function CompletedJobs(props) {

@@ -1,9 +1,10 @@
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button, Box, Paper, Typography, Grid, TextField, Stack, Tab, Tabs } from "@mui/material";
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button, Box, Paper, Typography, Link, TextField, Stack, Tab, Tabs } from "@mui/material";
 import { useState, useRef } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import jsPDF from "jspdf";
 import { autoTable } from "jspdf-autotable";
 import axios from "axios";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -98,9 +99,8 @@ function ProfessionalSettings(props) {
     const [creditCardCVV, setCreditCardCVV] = useState(props.creditCardCVV);
 
     async function updateDetails() {   
-        const category = "professional";
+        const category = props.category;
         const membershipID = props.MembershipPlan[0].id
-        console.log({membershipID, username, password, email, phone, address, creditCardNumber, creditCardCVV, category, radioGroupValue})
         try {
             const req = await axios.post("/api/updateDetails", {membershipID, username, password, email, phone, address, creditCardNumber, creditCardCVV, category, radioGroupValue});
             if (req.status == 200) {
@@ -115,9 +115,10 @@ function ProfessionalSettings(props) {
 
 
     return (
-    <Box sx={{border: 1, borderRadius: 5, m: 1 }}>
+    <Box sx={{m: 1 }}>
          <ToastContainer />
-        <Box sx={{display: 'flex', justifyContent: 'center', width: '100%'}}>
+        <Box sx={{display: 'inline-flex', justifyContent: 'left', width: '100%'}}>
+            <Link href="/"><ArrowBackIosIcon sx={{ fontSize: 40, mr: 45 }}></ArrowBackIosIcon></Link>
             <Typography variant="h3" sx={{color: "black"}}>Settings</Typography>
         </Box>
         <Box sx={{display: 'flex', justifyContent: 'center', width: '100%'}}>
@@ -136,7 +137,7 @@ function ProfessionalSettings(props) {
                 <Stack direction="column">
                     <Typography variant="h6">Update Details</Typography>
                     <TextField name="userName" variant="standard" value={username} onChange={(e) => setUsername(e.target.value)}/>
-                    <TextField name="userPassword" type="password" variant="standard" onChange={(e) => setPassword(e.target.value)} />
+                    <TextField name="userPassword" type="password" variant="standard" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <TextField name="userEmail" variant="standard" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     <TextField name="userPhone" variant="standard" value={phone} onChange={(e) => setPhone(e.target.value)}></TextField>
                     <TextField name="userAddress" variant="standard" value={address} onChange={(e) => setAddress(e.target.value)}></TextField>

@@ -15,7 +15,6 @@ export default async(req, res) => {
             
             if(data.category == "professional") {
                 delete data.category;
-                console.log(data.radioGroupValue);
                 updateResult += await mydb.membershipPlan.update({
                     where: {id: data.membershipID},
                     data: {category: data.radioGroupValue}
@@ -32,6 +31,22 @@ export default async(req, res) => {
                 })
 
                 
+            }else{
+                delete data.category;
+                updateResult += await mydb.membershipPlan.update({
+                    where: {id: data.membershipID},
+                    data: {category: data.radioGroupValue}
+                })
+
+                delete data.membershipID;
+                delete data.radioGroupValue;
+
+                updateResult = await mydb.tradeYouUser.update({
+                    where: {username: data.username},
+                    data: {
+                        ...data
+                    }
+                })
             }
 
         res.status(200).json(updateResult);

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { signOut } from "next-auth/react";
+import Router  from 'next/router';
 
 
 function SignedInUserNavbar() {

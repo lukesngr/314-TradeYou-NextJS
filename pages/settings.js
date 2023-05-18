@@ -1,6 +1,5 @@
 import { useSession } from 'next-auth/react';
 import ProfessionalSettings from '../components/settings/ProfessionalSettings';
-import UserSettings from '../components/settings/UserSettings';
 import Router from 'next/router';
 import { Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
@@ -16,11 +15,7 @@ function Settings(props) {
     })
     if(getStatus === "success") {
         details = detailsData;
-        if(props.userCategory == "user") {
-            return <UserSettings {...details}></UserSettings>
-        }else{
-            return <ProfessionalSettings {...details}></ProfessionalSettings>
-        }
+        return <ProfessionalSettings {...details}></ProfessionalSettings>
     }else if(getStatus === "error") {
         console.log(error);
     }
