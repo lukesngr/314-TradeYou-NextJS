@@ -21,7 +21,6 @@ model TradeYouUser {
   creditCardCVV       String
   MembershipPlan      MembershipPlan[]
   ServiceRequest      ServiceRequest[]
-  Notification        Notification[]
   Charges             Charges[]
   DistanceMemoization DistanceMemoization[]
 }
@@ -36,7 +35,6 @@ model TradeYouProfessional {
   creditCardNumber    String
   creditCardCVV       String
   ServiceRequest      ServiceRequest[]
-  Notification        Notification[]
   MembershipPlan      MembershipPlan[]
   Charges             Charges[]
   DistanceMemoization DistanceMemoization[]
@@ -96,16 +94,6 @@ model Payment {
   serviceRequestID Int
 }
 
-model Notification {
-  id             Int                  @id @default(autoincrement())
-  user           TradeYouUser         @relation(fields: [userID], references: [id])
-  userID         Int
-  professional   TradeYouProfessional @relation(fields: [professionalID], references: [id])
-  professionalID Int
-  dateTime       DateTime
-  message        String
-}
-
 model ProfessionalsThatAcceptRequest {
   id               Int            @id @default(autoincrement())
   serviceRequest   ServiceRequest @relation(fields: [serviceRequestID], references: [id])
@@ -121,10 +109,10 @@ model ProfessionalsThatDenyRequest {
 }
 
 model DistanceMemoization {
-  id               Int                   @id @default(autoincrement())
-  professional     TradeYouProfessional? @relation(fields: [professionalID], references: [id], onDelete: SetNull)
-  professionalID   Int?
-  distance         Int
-  TradeYouUser     TradeYouUser?         @relation(fields: [tradeYouUserId], references: [id])
-  tradeYouUserId   Int?
+  id             Int                   @id @default(autoincrement())
+  professional   TradeYouProfessional? @relation(fields: [professionalID], references: [id], onDelete: SetNull)
+  professionalID Int?
+  distance       Int
+  TradeYouUser   TradeYouUser?         @relation(fields: [tradeYouUserId], references: [id])
+  tradeYouUserId Int?
 }
