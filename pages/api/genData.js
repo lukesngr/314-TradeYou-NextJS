@@ -6,8 +6,10 @@ const bcrypt = require("bcrypt");
 export default async(req, res) => {
     try {
         let result = "";
-        var testUserData = {username: "test1", password: "test1", email: "test@gmail.com", phone: "0333123111", address: "10 George Street Sydney", creditCardNumber: "24320192", creditCardCVV: "342"};
-        var testUserData2 = {username: "test2", password: "test2", email: "test2@gmail.com", phone: "0333123444", address: "11 George Street Sydney", creditCardNumber: "24320194", creditCardCVV: "344"};
+        var test1Password = await bcrypt.hash("test1", 10);
+        var test2Password = await bcrypt.hash("test2", 10);
+        var testUserData = {username: "test1", password: test1Password, email: "test@gmail.com", phone: "0333123111", address: "10 George Street Sydney", creditCardNumber: "24320192", creditCardCVV: "342"};
+        var testUserData2 = {username: "test2", password: test2Password, email: "test2@gmail.com", phone: "0333123444", address: "11 George Street Sydney", creditCardNumber: "24320194", creditCardCVV: "344"};
        
         result = await mydb.tradeYouUser.create({
             data: {
@@ -19,7 +21,7 @@ export default async(req, res) => {
                     }
                 }
             }, });
-        result = await mydb.tradeYouUser.create({
+        result = await mydb.tradeYouProfessional.create({
             data: {
                 ...testUserData2,
                 MembershipPlan: {
