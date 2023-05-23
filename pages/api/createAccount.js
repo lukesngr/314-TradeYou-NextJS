@@ -1,7 +1,7 @@
 import {mydb} from '../../mymodules/prismaClientInstance';
 const bcrypt = require("bcrypt");
 
-export default async(req, res) => {
+export async function GET(req, res) => {
     const data = req.body;
     try {   
         let result = "";
