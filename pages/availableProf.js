@@ -12,7 +12,7 @@ function AvailableJobs(props) {
     const { status: getStatus, error, data: serviceRequestData} = useQuery({
         queryKey: ['availableJobs'],
         queryFn: () => {
-            return axios.get('http://localhost:3000/api/getAvailableJobs', {params: {username: props.username}}).then(res => res.data).catch(error => console.log(error));
+            return axios.get('https://tradeyou314.vercel.app/api/getAvailableJobs', {params: {username: props.username}}).then(res => res.data).catch(error => console.log(error));
         }
     })
     if(getStatus === "success") {

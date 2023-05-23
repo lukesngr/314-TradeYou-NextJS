@@ -10,7 +10,7 @@ function Settings(props) {
     const { status: getStatus, error, data: detailsData} = useQuery({
         queryKey: ['details'],
         queryFn: () => {
-            return axios.get('http://localhost:3000/api/getSettingsInfo', {params: {username: props.username, userCategory: props.userCategory}}).then(res => res.data).catch(error => console.log(error));
+            return axios.get('https://tradeyou314.vercel.app/api/getSettingsInfo', {params: {username: props.username, userCategory: props.userCategory}}).then(res => res.data).catch(error => console.log(error));
         }
     })
     if(getStatus === "success") {
