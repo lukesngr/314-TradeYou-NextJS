@@ -6,7 +6,31 @@ const bcrypt = require("bcrypt");
 export default async(req, res) => {
     try {
         let result = "";
-        for(var i = 0; i < 20; i++) {
+        var testUserData = {username: "test1", password: "test1", email: "test@gmail.com", phone: "0333123111", address: "10 George Street Sydney", creditCardNumber: "24320192", creditCardCVV: "342"};
+        var testUserData2 = {username: "test2", password: "test2", email: "test2@gmail.com", phone: "0333123444", address: "11 George Street Sydney", creditCardNumber: "24320194", creditCardCVV: "344"};
+       
+        result = await mydb.tradeYouUser.create({
+            data: {
+                ...testUserData,
+                MembershipPlan: {
+                    create: {
+                        category: "membership",
+                        dateStarted: new Date(),
+                    }
+                }
+            }, });
+        result = await mydb.tradeYouUser.create({
+            data: {
+                ...testUserData2,
+                MembershipPlan: {
+                    create: {
+                        category: "membership",
+                        dateStarted: new Date(),
+                    }
+                }
+            }, });
+
+        for(var i = 0; i < 19; i++) {
             var username = fakerator.internet.userName();
             var password = "123456";
             var email = fakerator.internet.email();
@@ -14,7 +38,7 @@ export default async(req, res) => {
             var address = fakerator.address.street();
             var creditCardNumber = fakerator.random.number(10000000).toString();
             var creditCardCVV = fakerator.random.number(1000).toString();
-            var data = {username, password, email, phone, address, creditCardNumber, creditCardCVV, category};
+            var data = {username, password, email, phone, address, creditCardNumber, creditCardCVV};
             const newPassword = await bcrypt.hash(data.password, 10); 
             data.password = newPassword
 
@@ -30,7 +54,7 @@ export default async(req, res) => {
                 }, });
         }
 
-        for(var i = 0; i < 20; i++) {
+        for(var i = 0; i < 19; i++) {
             var username = fakerator.internet.userName();
             var password = "123456";
             var email = fakerator.internet.email();
@@ -38,7 +62,7 @@ export default async(req, res) => {
             var address = fakerator.address.street();
             var creditCardNumber = fakerator.random.number(10000000).toString();
             var creditCardCVV = fakerator.random.number(1000).toString();
-            var data = {username, password, email, phone, address, creditCardNumber, creditCardCVV, category};
+            var data = {username, password, email, phone, address, creditCardNumber, creditCardCVV};
             const newPassword = await bcrypt.hash(data.password, 10); 
             data.password = newPassword
 
@@ -63,14 +87,6 @@ export default async(req, res) => {
             }
         }
 
-        let firstUser = await mydb.tradeYouUser.findFirst({
-            select: {id: true, username: true}
-        });
-        let firstProfessional = await mydb.tradeYouProfessional.findFirst({
-            select: {username: true}
-        })
-        console.log("Example account to test with: "+firstUser.username);
-        console.log("Example professional account to test with: "+firstProfessional.username)
         var categories = ["Cleaning Services", "Home Repair and Maintenance", "Landscaping Services", "Moving and Storage Services ",
                         "Home Improvement Services", "Window Services ", "Painting Services", "Home Security Services ",
                         "Paving Services ", "Garage Services"]  

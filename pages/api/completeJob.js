@@ -17,10 +17,10 @@ export default async(req, res) => {
                 id: data.serviceRequestID
             },
             select: {
-                TradeYouProfessional: {
+                professional: {
                     select: {id: true}
                 },
-                TradeYouUser: {
+                user: {
                     select: {id: true}
                 }
             }
@@ -28,7 +28,7 @@ export default async(req, res) => {
 
         const userMembershipCategory = await mydb.tradeYouUser.findUnique({
             where: {
-                id: ids.TradeYouUser.id
+                id: ids.user.id
             },
             select: {
                 MembershipPlan: {
@@ -39,7 +39,7 @@ export default async(req, res) => {
 
         const profMembershipCategory = await mydb.tradeYouProfessional.findUnique({
             where: {
-                id: ids.TradeYouProfessional.id
+                id: ids.professional.id
             },
             select: {
                 MembershipPlan: {
@@ -53,7 +53,7 @@ export default async(req, res) => {
                 data: {
                     amount: 100.0,
                     dateTime: new Date(),
-                    ServiceRequest: {
+                    serviceRequest: {
                         connect: {id: data.serviceRequestID}
                     }
                 }
@@ -65,7 +65,7 @@ export default async(req, res) => {
                 data: {
                     amount: 20.0,
                     dateTime: new Date(),
-                    TradeYouProfessional: { connect: {id: ids.TradeYouProfessional.id}}
+                    professional: { connect: {id: ids.professional.id}}
                 }
             })
         }

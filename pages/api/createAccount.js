@@ -1,7 +1,7 @@
 import {mydb} from '../../mymodules/prismaClientInstance';
 const bcrypt = require("bcrypt");
 
-export async function GET(req, res) {
+export default async(req, res) => {
     const data = req.body;
     try {   
         let result = "";
@@ -10,7 +10,7 @@ export async function GET(req, res) {
         //not the best code but uml design given to me was less than spectacular
             
         if (data.category == 'user') {
-            delete data.category;
+            delete data.category;``
             result = await mydb.tradeYouUser.create({
                 data: {
                     ...data,
