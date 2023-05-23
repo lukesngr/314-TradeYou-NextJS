@@ -5,6 +5,7 @@ import axios from "axios";
 import ProfessionalAccordion from '../components/accordion/ProfessionalAccordion';
 import Router from 'next/router';
 import { useQuery } from '@tanstack/react-query';
+import { ToastContainer } from "react-toastify";
 
 function AvailableJobs(props) {
     let serviceRequests = [];
@@ -22,6 +23,7 @@ function AvailableJobs(props) {
 
     return (
         <>
+             <ToastContainer />
             <SignedInProfessionalNavbar></SignedInProfessionalNavbar>
             <Box sx={{display: 'flex', justifyContent: 'center'}} >
                 <Card sx={{p: 5, my: 10}}>

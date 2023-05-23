@@ -47,8 +47,7 @@ function ProfessionalAccordion(props) {
     async function completeRequest() {
         try {
             await axios.post("/api/completeJob", {serviceRequestID: props.id, status: "complete"});
-            setPaccepted(false);
-            setCaccepted(true);
+            setCaccepted(false);
             toast.success('Completed request');
         }catch (error) {
             console.log(error);
