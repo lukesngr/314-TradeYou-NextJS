@@ -89,6 +89,8 @@ export default async(req, res) => {
             }
         }
 
+        const firstUser = await mydb.tradeYouUser.findFirst();
+
         var categories = ["Cleaning Services", "Home Repair and Maintenance", "Landscaping Services", "Moving and Storage Services ",
                         "Home Improvement Services", "Window Services ", "Painting Services", "Home Security Services ",
                         "Paving Services ", "Garage Services"]  
