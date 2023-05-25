@@ -6,8 +6,8 @@ import axios from "axios";
 export default function GenerateData() {
     async function generateData(){
         try{
-            var testUserData = {username: "test1", password: test1Password, email: "test@gmail.com", phone: "0333123111", address: "10 George Street Sydney", creditCardNumber: "24320192", creditCardCVV: "342", category: "user"};
-            var testUserData2 = {username: "test2", password: test2Password, email: "test2@gmail.com", phone: "0333123444", address: "11 George Street Sydney", creditCardNumber: "24320194", creditCardCVV: "344", category: "professional"};
+            var testUserData = {username: "test1", password: "test1", email: "test@gmail.com", phone: "0333123111", address: "10 George Street Sydney", creditCardNumber: "24320192", creditCardCVV: "342", category: "user"};
+            var testUserData2 = {username: "test2", password: "test2", email: "test2@gmail.com", phone: "0333123444", address: "11 George Street Sydney", creditCardNumber: "24320194", creditCardCVV: "344", category: "professional"};
             let request = await axios.post("/api/createAccount", testUserData);
             request = await axios.post("/api/createAccount", testUserData2);
 
