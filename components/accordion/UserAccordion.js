@@ -80,7 +80,7 @@ function UserAccordion(props) {
                 {jobComplete && 
                 <>
                     <Box sx={{display: 'flex', flexDirection: 'row', flexWrap: 'nowrap'}}>     
-                        <TextareaAutosize name="reviewDescription" minRows={4} style={{flexGrow: 4, mr: 2}} defaultValue={reviewDesc}></TextareaAutosize>
+                        <TextareaAutosize name="reviewDescription" minRows={4} style={{flexGrow: 4, mr: 2}} value={reviewDesc} onChange={(event) => {setReviewDescription(event.target.value)}}></TextareaAutosize>
                         <Rating name="ratingOfServices" value={rating} onChange={handleRatingChange} />  
                     </Box>
                     {!submittedReview && <Button variant="contained" onClick={()=> createReview()} color="success" >Submit</Button> }
