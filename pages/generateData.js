@@ -36,8 +36,10 @@ export default function GenerateData() {
 
             var uselessInformation = "uselessInformation";
             for(var x = 0; x < 5; x++) {  
-                request = await axios.post("/api/genData", {uselessInformation: uselessInformation});
-                request = await axios.post("/api/genData2", {uselessInformation: uselessInformation});
+                request = await axios.post("/api/genData", {start: 0, finish: 5});
+                request = await axios.post("/api/genData", {start: 5, finish: 10});
+                request = await axios.post("/api/genData", {start: 10, finish: 15});
+                request = await axios.post("/api/genData", {start: 15, finish: 19});
             }
             
         }catch (error) {

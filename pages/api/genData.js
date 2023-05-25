@@ -4,6 +4,7 @@ const fakerator = Fakerator('en-AU');
 const bcrypt = require("bcrypt");
 
 export default async(req, res) => {
+    let data = req.body;
     try {
         let result = "";
 
@@ -12,7 +13,7 @@ export default async(req, res) => {
         var categories = ["Cleaning Services", "Home Repair and Maintenance", "Landscaping Services", "Moving and Storage Services ",
                         "Home Improvement Services", "Window Services ", "Painting Services", "Home Security Services ",
                         "Paving Services ", "Garage Services"]  
-        for(var i = 0; i < 10; i++) {
+        for(var i = data.start; i < data.finish; i++) {
             var category = categories[fakerator.random.number(9)];
             var price = fakerator.random.number(10000);
             console.log(firstUser.id+i)
