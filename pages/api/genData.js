@@ -13,26 +13,24 @@ export default async(req, res) => {
                         "Home Improvement Services", "Window Services ", "Painting Services", "Home Security Services ",
                         "Paving Services ", "Garage Services"]  
         for(var i = 0; i < 19; i++) {
-            for(var x = 0; x < 5; x++) {
-                var category = categories[fakerator.random.number(9)];
-                var price = fakerator.random.number(10000);
-                console.log(firstUser.id+i)
-                 result = await mydb.serviceRequest.create({
-                    data: {
-                        name: "My Service Request",
-                        description: "Service Request information is hard to randomly generate",
-                        category: category,
-                        price: price,
-                        dateTime: new Date(),
-                        status:  "submitted",
-                        user: {
-                            connect: {
-                                id: firstUser.id+i
-                            }
+            var category = categories[fakerator.random.number(9)];
+            var price = fakerator.random.number(10000);
+            console.log(firstUser.id+i)
+            result = await mydb.serviceRequest.create({
+                data: {
+                    name: "My Service Request",
+                    description: "Service Request information is hard to randomly generate",
+                    category: category,
+                    price: price,
+                    dateTime: new Date(),
+                    status:  "submitted",
+                    user: {
+                        connect: {
+                            id: firstUser.id+i
                         }
                     }
-                });
-            }
+                }
+            });
         }
 
         res.status(200).json(result);

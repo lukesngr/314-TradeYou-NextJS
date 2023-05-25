@@ -35,10 +35,10 @@ export default function GenerateData() {
             }
 
             var uselessInformation = "uselessInformation";
-            request = await axios.post("/api/genData", {uselessInformation: uselessInformation});
-            if(request.status == 200) {
-                console.log('Success');
-            }
+            for(var x = 0; x < 5; x++) {  
+                request = await axios.post("/api/genData", {uselessInformation: uselessInformation});
+             }
+            
         }catch (error) {
             console.log(error)
         }
