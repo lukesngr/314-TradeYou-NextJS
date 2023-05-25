@@ -3,7 +3,11 @@ import {mydb} from '../../mymodules/prismaClientInstance'
 async function addMembershipChargeAfterYear(userID) {
     try {
         const membershipObject = await mydb.tradeYouUser.findUnique({
-            where: {id: userID},
+            where: {
+                id: userID, 
+                MembershipPlan: {
+                    where: {category: "commission"}
+                }},
             select: {
                 MembershipPlan: {
                     select: {dateStarted: true}

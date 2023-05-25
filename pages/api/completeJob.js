@@ -48,14 +48,23 @@ export default async(req, res) => {
             }
         })
 
+        
+        result += await mydb.payment.create({
+            data: {
+                amount: 100.0,
+                dateTime: new Date(),
+                serviceRequest: {
+                    connect: {id: data.serviceRequestID}
+                }
+            }
+        })
+
         if(userMembershipCategory.MembershipPlan[0].category != "membership") {
-            result += await mydb.payment.create({
+            result += await mydb.charges.create({
                 data: {
                     amount: 100.0,
                     dateTime: new Date(),
-                    serviceRequest: {
-                        connect: {id: data.serviceRequestID}
-                    }
+                    user: { connect: {id: ids.user.id}}
                 }
             })
         }
