@@ -37,7 +37,8 @@ export default function GenerateData() {
             var uselessInformation = "uselessInformation";
             for(var x = 0; x < 5; x++) {  
                 request = await axios.post("/api/genData", {uselessInformation: uselessInformation});
-             }
+                request = await axios.post("/api/genData2", {uselessInformation: uselessInformation});
+            }
             
         }catch (error) {
             console.log(error)
