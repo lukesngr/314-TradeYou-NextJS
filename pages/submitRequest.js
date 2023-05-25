@@ -55,6 +55,7 @@ const submitRequest = () => {
                                 <form ref={formReference}>
                                     <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
                                             <Typography variant="h4">Submit a request</Typography>
+                                            <Typography variant="p">Service price is $100 if pay on demand is selected</Typography>
                                             <TextField fullWidth={true} name="requestName" id="standard-basic" label="Name" variant="standard" />
                                             <TextField fullWidth={true} name="requestDescription" id="standard-password-input" label="Description" variant="standard" />
                                             <TextField fullWidth={true} name="requestPrice" id="standard-number" label="Desired Price ($)"  variant="standard" />
