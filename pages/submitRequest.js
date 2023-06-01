@@ -9,7 +9,7 @@ import Router from 'next/router';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const submitRequest = () => {
+export default function SubmitRequest() {
     const {data: session, status } = useSession();
     const formReference = useRef()
     const [category, setCategory] = useState('1');
@@ -97,5 +97,3 @@ const submitRequest = () => {
         Router.push('/');
     }
 }
-
-export default submitRequest
