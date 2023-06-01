@@ -19,7 +19,6 @@ export default function GenerateData() {
                 var email = fakerator.internet.email();
                 var phone = fakerator.phone.number();
                 var address = fakerator.random.number(11) + " " + possibleStreets[fakerator.random.number(19)];
-                console.log(address);
                 var creditCardNumber = fakerator.random.number(10000000).toString();
                 var creditCardCVV = fakerator.random.number(1000).toString();
                 request = await axios.post("/api/createAccount", {username, password, email, phone, address, creditCardNumber, creditCardCVV, category: "user"});
@@ -30,7 +29,7 @@ export default function GenerateData() {
                 var password = "123456";
                 var email = fakerator.internet.email();
                 var phone = fakerator.phone.number();
-                var address =  fakerator.random.number(11) + " " + possibleStreets[fakerator.random.number(19)];
+                var address = fakerator.random.number(11) + " " + possibleStreets[fakerator.random.number(19)];
                 var creditCardNumber = fakerator.random.number(10000000).toString();
                 var creditCardCVV = fakerator.random.number(1000).toString();
                 request = await axios.post("/api/createAccount", {username, password, email, phone, address, creditCardNumber, creditCardCVV, category: "professional"});
