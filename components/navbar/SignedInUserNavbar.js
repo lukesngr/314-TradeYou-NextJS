@@ -27,8 +27,8 @@ function SignedInUserNavbar() {
                 <Toolbar sx={{pl:0 }}>
                     <Grid container alignItems="right" spacing={1}>
                         <Grid lg={1} xs={2}><Image src="/images/tradeYouIcon.PNG" sx={{p: 2, zIndex: 'left'}} height={50} width={70} alt="Trade You" /></Grid>
-                        <Grid item lg={1} md={2} xs={3}><Link variant="h6" color="secondary" underline="none" href="/submitRequest">Submit a Service Request</Link></Grid>
-                        <Grid item lg={8} md={7} xs={5}><Link variant="h6" color="secondary" underline="none" href="/myRequests">My Service Requests</Link></Grid>
+                        <Grid item lg={1} md={2} xs={3}><Link variant="h6" color="secondary" underline="none" href="/submitRequest">Submit a Request</Link></Grid>
+                        <Grid item lg={8} md={7} xs={5}><Link variant="h6" color="secondary" underline="none" href="/myRequests">My Requests</Link></Grid>
                         <Grid item lg={1} onClick={handleProfileMenuOpen}><IconButton><AccountCircle /></IconButton></Grid>
                     </Grid>
                 </Toolbar>
