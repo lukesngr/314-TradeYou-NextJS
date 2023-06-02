@@ -35,8 +35,7 @@ function SignedInProfessionalNavbar() {
                   <MenuItem onClick={goSettings}>Settings</MenuItem>
                   <MenuItem onClick={signOut}>Sign out</MenuItem>
                 </Menu>
-            </AppBar>
-            )
+            </AppBar>)
 }
 
 export default SignedInProfessionalNavbar;
