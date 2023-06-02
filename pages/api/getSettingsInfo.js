@@ -32,6 +32,7 @@ export default async(req, res) => {
                             status: true,
                             Payment: {
                                 select: {
+                                    id: true,
                                     dateTime: true,
                                     amount: true,
                                     serviceRequestID: true
