@@ -45,7 +45,7 @@ export default function SignUp() {
                     <Card>
                         <Box>
                             <form ref={formReference}>
-                                <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
+                                <Box sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
                                     <Typography variant="h4">Create account</Typography>
                                     <TextField fullWidth={true} name="userName" id="standard-basic" label="Username" variant="standard" />
                                     <TextField fullWidth={true} name="userPassword" id="standard-password-input" label="Password" type="password" variant="standard" />
@@ -54,14 +54,14 @@ export default function SignUp() {
                                     <TextField fullWidth={true} name="userAddress" id="standard-basic" label="Address" variant="standard"></TextField>
                                     <TextField fullWidth={true} name="userCardNumber" id="standard-number" label="Credit Card Number" variant="standard"></TextField>
                                     <TextField fullWidth={true} name="userCardCVV" id="standard-number" label="CVV" variant="standard"></TextField>   
-                                    <FormControlLabel fullWidth="true"  control={<Switch onChange={(event, val) => {
+                                    <FormControlLabel fullWidth={true}  control={<Switch onChange={(event, val) => {
                                         if (val) {
                                             setValue("professional")
                                         }else{
                                             setValue("user")
                                         }    
                                     }} name="isProfessional" value={value} color="primary" />} label="Professional" labelPlacement="start" />
-                                    <Button fullWidth variant="contained" color="primary" onClick={()=> createNewUser()}>Create</Button>  
+                                    <Button  fullWidth={true} variant="contained" color="primary" onClick={()=> createNewUser()}>Create</Button>  
                                 </Box>
                             </form>
                         </Box>
