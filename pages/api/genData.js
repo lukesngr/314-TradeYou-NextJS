@@ -22,7 +22,6 @@ export default async(req, res) => {
             var title = titles[fakerator.random.number(9)];
             var description = fakerator.lorem.sentence()
             var price = fakerator.random.number(10000);
-            console.log(firstUser.id+i)
             result = await mydb.serviceRequest.create({
                 data: {
                     name: title,

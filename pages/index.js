@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react'
 import NonSignedInNavbar from '../components/navbar/NonSignedInNavbar';
 import {Box, Card, Link, Typography} from "@mui/material";
+import Image from 'next/image';
 import Router from 'next/router';
 
 
@@ -18,13 +19,16 @@ const HomePage = () => {
         return (
             <>
                 <NonSignedInNavbar></NonSignedInNavbar>
-                <Box sx={{display: 'flex', justifyContent: 'center', mt: 10}} >
-                    <Card sx={{p: 10}}>
-                        <Box  sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', p: 5}}>
-                            <Typography variant="h4">Welcome</Typography>
-                        </Box>
-                    </Card>
+                <Box>
+                    <img src="/images/desktopgraphic.png" style={{width: "100%"}}></img>
                 </Box>
+                <Box sx={{position: "absolute", left: '33%', top: '50%'}} >
+                        <Card sx={{p: 5, backgroundColor: "secondary.main", color: "black"}}>
+                            <Typography variant="h4">Welcome to TradeYou</Typography>
+                            <Typography variant="p">TradeYou is a site which helps you log requests to get tradies to do work for you</Typography>
+                        </Card>
+                </Box>
+                <Box sx={{width: "100%", height: "100px", backgroundColor: "primary.main"}}></Box>
             </>
         )
     }
