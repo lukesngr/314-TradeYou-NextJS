@@ -3,7 +3,6 @@ import axios from "axios";
 
 async function getDistanceBetweenTwoAddresses(userID, professionalObject) {
     let result = 10000;
-    console.log("Yo");
 
     try {
         const professionalAddress = professionalObject.address;
@@ -18,9 +17,7 @@ async function getDistanceBetweenTwoAddresses(userID, professionalObject) {
             }
         })
 
-        console.log(distanceHasBeenMemoed);
-
-        if(distanceHasBeenMemoed === undefined) {
+        if(distanceHasBeenMemoed == []) {
             const userAddress = await mydb.tradeYouUser.findUnique({
                 where: {id: userID},
                 select: {address: true}
