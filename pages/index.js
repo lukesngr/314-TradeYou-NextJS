@@ -1,7 +1,6 @@
 import { useSession } from 'next-auth/react'
 import NonSignedInNavbar from '../components/navbar/NonSignedInNavbar';
-import {Box, Card, Link, Typography} from "@mui/material";
-import Image from 'next/image';
+import {Box, Card, Typography} from "@mui/material";
 import Router from 'next/router';
 
 
